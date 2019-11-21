@@ -36,7 +36,7 @@ public class HtmlCrawlerController {
         config.setMaxDepthOfCrawling(2);
         config.setIncludeHttpsPages(true);
 
-        int numCrawlers = 100;
+        int numCrawlers = 10000;
 
         PageFetcher fetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

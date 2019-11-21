@@ -13,9 +13,11 @@ import java.util.regex.Pattern;
 
 public class HtmlCrawler extends WebCrawler {
 
+
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
                     "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
+    private final static Pattern VACATURE = Pattern.compile(".*(\\.(/vacature/"+ "))$");
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
     private Zoekopdracht zoekopdracht;
 
@@ -26,8 +28,8 @@ public class HtmlCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referentiePagina, WebURL url) {
         String urlString = url.getURL().toLowerCase();
-        return !UITZONDERINGEN.matcher(urlString).matches()
-                && urlString.startsWith(urlString);
+        return !UITZONDERINGEN.matcher(urlString).matches();
+//                && urlString.startsWith(urlString);
     }
 
     @Override
@@ -41,10 +43,11 @@ public class HtmlCrawler extends WebCrawler {
             String tekst = htmlParseData.getText();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            if (tekst.contains(zoekopdracht.getZoekterm())) {
+            if (tekst.contains(zoekopdracht.getZoekterm()) && tekst.contains("Solliciteer direct bij de werkgever")) {
                 resultaat.setTitel(titel);
-                resultaat.setTekst(tekst);
+                resultaat.setTekst(url);
                 resultaat.setZoekopdracht(zoekopdracht);
+                System.out.println(url);
 
                 zoekopdracht.getResultaten().add(resultaat);
                 LOGGER.info("Nieuw resultaat gevonden: " + titel);
