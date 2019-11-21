@@ -1,11 +1,12 @@
 package com.example.crawlertest.domein;
 
-import com.example.crawlertest.repositories.ResultaatRepository;
+import com.example.crawlertest.services.ResultaatService;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.Set;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ public class HtmlCrawler extends WebCrawler {
                     "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
     private Zoekopdracht zoekopdracht;
+    private ResultaatService resultaatService = new ResultaatService();
 
     public HtmlCrawler(Zoekopdracht zoekopdracht) {
         this.zoekopdracht = zoekopdracht;
@@ -26,8 +28,8 @@ public class HtmlCrawler extends WebCrawler {
     @Override
     public boolean shouldVisit(Page referentiePagina, WebURL url) {
         String urlString = url.getURL().toLowerCase();
-        return !UITZONDERINGEN.matcher(urlString).matches()
-                && urlString.startsWith(urlString);
+        return !UITZONDERINGEN.matcher(urlString).matches();
+//                && urlString.startsWith(urlString);
     }
 
     @Override
@@ -37,17 +39,27 @@ public class HtmlCrawler extends WebCrawler {
 
         if (website.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) website.getParseData();
+            String html = htmlParseData.getHtml();
+            Document document = Jsoup.parse(html);
+
+            String content = document.body().text();
             String titel = htmlParseData.getTitle();
             String tekst = htmlParseData.getText();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            if (tekst.contains(zoekopdracht.getZoekterm())) {
-                resultaat.setTitel(titel);
-                resultaat.setTekst(tekst);
-                resultaat.setZoekopdracht(zoekopdracht);
+            if (content.contains(zoekopdracht.getZoekterm()) &&
+//                    content.contains("Vacaturedetails") &&
+                    content.contains("of schrijf je gratis in")) {
 
-                zoekopdracht.getResultaten().add(resultaat);
-                LOGGER.info("Nieuw resultaat gevonden: " + titel);
+                if (!resultaatService.resultaatBestaatAl(url)) {
+                    resultaat.setTitel(titel);
+                    resultaat.setTekst(content);
+                    resultaat.setUrl(url);
+                    resultaat.setZoekopdracht(zoekopdracht);
+
+                    zoekopdracht.getResultaten().add(resultaat);
+                    LOGGER.info("Nieuw resultaat gevonden: " + titel);
+                }
             }
         }
     }
