@@ -1,7 +1,5 @@
 package com.example.crawlertest.domein;
 
-import com.google.i18n.phonenumbers.Phonenumber;
-
 import javax.persistence.*;
 
 @Entity()
@@ -13,7 +11,7 @@ public class Vacature {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TITEL")
+    @Column(name = "TITEL", length = 2000)
     private String titel;
 
     @Column(name = "URL", unique = true)
