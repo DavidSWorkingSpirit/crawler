@@ -1,14 +1,11 @@
 package com.example.crawlertest.domein;
 
-import com.example.crawlertest.services.ResultaatService;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.logging.Logger;
@@ -24,7 +21,6 @@ public class HtmlCrawler extends WebCrawler {
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
 
     private Zoekopdracht zoekopdracht;
-
     private CallBack callBack;
 
     public HtmlCrawler(Zoekopdracht zoekopdracht, CallBack callBack) {
