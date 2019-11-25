@@ -22,24 +22,17 @@ public class HtmlCrawler extends WebCrawler {
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
                     "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
 //    private final static Pattern VACATURE = Pattern.compile(".*(\\.(/vacature/"+ "))$");
+
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
 
     private Zoekopdracht zoekopdracht;
 
-    @Autowired
-    private ResultaatService resultaatService;
+    private CallBack callBack;
 
-//    public HtmlCrawler(Zoekopdracht zoekopdracht) {
-//        this.zoekopdracht = zoekopdracht;
-//    }
+    public HtmlCrawler(Zoekopdracht zoekopdracht, CallBack callBack) {
 
-
-    public Zoekopdracht getZoekopdracht() {
-        return zoekopdracht;
-    }
-
-    public void setZoekopdracht(Zoekopdracht zoekopdracht) {
         this.zoekopdracht = zoekopdracht;
+        this.callBack = callBack;
     }
 
     @Override
@@ -65,20 +58,15 @@ public class HtmlCrawler extends WebCrawler {
             String tekst = htmlParseData.getText();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            if (tekst.contains(zoekopdracht.getZoekterm()) && tekst.contains("Of solliciteer later")) {
+            if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
+                Pattern.compile("vacature/\\d{7}").matcher(url).find()) {
+
                 resultaat.setTitel(titel);
-                resultaat.setTekst(url);
+                resultaat.setTekst(content);
+                resultaat.setUrl(url);
                 resultaat.setZoekopdracht(zoekopdracht);
 
-                if (!resultaatService.resultaatBestaatAl(url)) {
-                    resultaat.setTitel(titel);
-                    resultaat.setTekst(content);
-                    resultaat.setUrl(url);
-                    resultaat.setZoekopdracht(zoekopdracht);
-
-                    zoekopdracht.getResultaten().add(resultaat);
-                    LOGGER.info("Nieuw resultaat gevonden: " + titel);
-                }
+                callBack.verwerkResultaat(resultaat);
             }
         }
     }

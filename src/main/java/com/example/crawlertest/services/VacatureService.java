@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Service
 public class VacatureService {
 
+    private int nummer = 0;
     private VacatureRepository vacatureRepository;
     private ResultaatRepository resultaatRepository;
 
@@ -25,18 +26,22 @@ public class VacatureService {
     public void maakVacatures() {
         List<Resultaat> resultaten = resultaatRepository.findAll();
 
-        List<Vacature> vacatures = resultaten.stream().map(resultaat -> scanResultaat(resultaat)).collect(Collectors.toList());
+        List<Vacature> vacatures = resultaten.stream().map(resultaat -> scanResultaat(resultaat))
+                                                      .filter(vacature -> vacature != null)
+                                                      .collect(Collectors.toList());
 
         vacatureRepository.saveAll(vacatures);
     }
 
     public Vacature scanResultaat(Resultaat resultaat) {
+
         if (!vacatureRepository.findByUrl(resultaat.getUrl()).isPresent()) {
             Vacature vacature = new Vacature();
             vacature.setTitel(resultaat.getTitel());
             vacature.setUrl(resultaat.getUrl());
 
-            System.out.println("Vacature wordt aangemaakt.");
+            nummer++;
+            System.out.println("Vacature " + nummer + " wordt aangemaakt.");
 
             return vacature;
         }
