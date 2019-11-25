@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 
 public class HtmlCrawler extends WebCrawler {
 
-
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
                     "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
