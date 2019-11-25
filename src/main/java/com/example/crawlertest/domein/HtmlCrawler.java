@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-@Component
 public class HtmlCrawler extends WebCrawler {
 
 
