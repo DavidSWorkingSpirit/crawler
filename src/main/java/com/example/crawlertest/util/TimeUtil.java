@@ -11,7 +11,7 @@ public class TimeUtil {
     @Autowired
     private VacatureService vacatureService;
 
-//    @Scheduled(cron = "0 20 9 * * ?")
+//    @Scheduled(cron = "0 19 11 * * ?")
     public void maakVacatures() {
         vacatureService.maakVacatures();
     }

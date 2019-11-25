@@ -7,6 +7,8 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.logging.Logger;
@@ -16,13 +18,14 @@ public class HtmlCrawler extends WebCrawler {
 
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
+                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|ttf|woff2))$");
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
     private Zoekopdracht zoekopdracht;
-    private ResultaatService resultaatService = new ResultaatService();
+    private CallBack callBack;
 
-    public HtmlCrawler(Zoekopdracht zoekopdracht) {
+    public HtmlCrawler(Zoekopdracht zoekopdracht, CallBack callBack) {
         this.zoekopdracht = zoekopdracht;
+        this.callBack = callBack;
     }
 
     @Override
@@ -47,19 +50,15 @@ public class HtmlCrawler extends WebCrawler {
             String tekst = htmlParseData.getText();
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-            if (content.contains(zoekopdracht.getZoekterm()) &&
-//                    content.contains("Vacaturedetails") &&
-                    content.contains("of schrijf je gratis in")) {
+            if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
+                Pattern.compile("vacature/\\d{7}").matcher(url).find()) {
 
-                if (!resultaatService.resultaatBestaatAl(url)) {
-                    resultaat.setTitel(titel);
-                    resultaat.setTekst(content);
-                    resultaat.setUrl(url);
-                    resultaat.setZoekopdracht(zoekopdracht);
+                resultaat.setTitel(titel);
+                resultaat.setTekst(content);
+                resultaat.setUrl(url);
+                resultaat.setZoekopdracht(zoekopdracht);
 
-                    zoekopdracht.getResultaten().add(resultaat);
-                    LOGGER.info("Nieuw resultaat gevonden: " + titel);
-                }
+                callBack.verwerkResultaat(resultaat);
             }
         }
     }
