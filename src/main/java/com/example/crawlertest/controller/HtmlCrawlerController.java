@@ -2,12 +2,14 @@ package com.example.crawlertest.controller;
 
 import com.example.crawlertest.domein.HtmlCrawler;
 import com.example.crawlertest.domein.Zoekopdracht;
+import com.example.crawlertest.services.VacatureService;
 import com.example.crawlertest.services.ZoekopdrachtService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import org.apache.http.client.config.CookieSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,22 +23,33 @@ import java.util.ArrayList;
 @RequestMapping(path = "crawl")
 public class HtmlCrawlerController {
 
+    @Autowired
     private ZoekopdrachtService zoekopdrachtService;
 
     @Autowired
-    public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService) {
+    private VacatureService vacatureService;
+
+    @Autowired
+    private HtmlCrawler htmlCrawler;
+
+    public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService) {
         this.zoekopdrachtService = zoekopdrachtService;
+        this.vacatureService = vacatureService;
     }
 
     @PostMapping("/")
     public void crawlWebsite(@RequestBody Zoekopdracht zoekopdracht) {
+        System.out.println("zoekopdracht:" + zoekopdracht);
         File crawlOpslag = new File("src/main/resources/crawlerOpslag");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
-        config.setMaxDepthOfCrawling(2);
+        config.setMaxDepthOfCrawling(3);
         config.setIncludeHttpsPages(true);
-
-        int numCrawlers = 10000;
+        config.setCleanupDelaySeconds(60);
+        config.setThreadShutdownDelaySeconds(240);
+        config.setThreadMonitoringDelaySeconds(120);
+        config.getMaxPagesToFetch();
+        int numCrawlers = 100 ;
 
         PageFetcher fetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
@@ -47,10 +60,12 @@ public class HtmlCrawlerController {
             controller.addSeed(zoekopdracht.getWebsite());
             zoekopdracht.setResultaten(new ArrayList<>());
 
-            CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> new HtmlCrawler(zoekopdracht);
+            htmlCrawler.setZoekopdracht(zoekopdracht);
+            CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> htmlCrawler;
             controller.start(factory, numCrawlers);
 
             zoekopdrachtService.zoekopdrachtOpslaan(zoekopdracht);
+            vacatureService.maakVacatures();
         } catch (Exception e) {
             e.printStackTrace();
         }
