@@ -38,16 +38,7 @@ public class HtmlCrawlerController {
 
     @PostMapping("/")
     public void crawlWebsite(@RequestBody Zoekopdracht zoekopdracht) {
-
-        File crawlOpslag = new File("src/main/resources/crawlerOpslag");
-        CrawlConfig config = new CrawlConfig();
-        config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
-        config.setMaxDepthOfCrawling(4);
-        config.setIncludeHttpsPages(true);
-        config.setCleanupDelaySeconds(60);
-        config.setThreadShutdownDelaySeconds(60);
-        config.setIncludeBinaryContentInCrawling(false);
-        config.setThreadMonitoringDelaySeconds(60);
+        CrawlConfig config = geefCrawlConfig();
 
         final int numCrawlers = 10000;
 
@@ -68,5 +59,19 @@ public class HtmlCrawlerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private CrawlConfig geefCrawlConfig() {
+        File crawlOpslag = new File("src/main/resources/crawlerOpslag");
+        CrawlConfig config = new CrawlConfig();
+        config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
+        config.setMaxDepthOfCrawling(2);
+        config.setIncludeHttpsPages(true);
+        config.setCleanupDelaySeconds(60);
+        config.setThreadShutdownDelaySeconds(60);
+        config.setIncludeBinaryContentInCrawling(false);
+        config.setThreadMonitoringDelaySeconds(60);
+
+        return config;
     }
 }
