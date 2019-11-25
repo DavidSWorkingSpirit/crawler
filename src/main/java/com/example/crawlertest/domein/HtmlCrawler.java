@@ -18,12 +18,17 @@ public class HtmlCrawler extends WebCrawler {
 
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|ttf|woff2))$");
+                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
+//    private final static Pattern VACATURE = Pattern.compile(".*(\\.(/vacature/"+ "))$");
+
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
+
     private Zoekopdracht zoekopdracht;
+
     private CallBack callBack;
 
     public HtmlCrawler(Zoekopdracht zoekopdracht, CallBack callBack) {
+
         this.zoekopdracht = zoekopdracht;
         this.callBack = callBack;
     }
@@ -38,6 +43,7 @@ public class HtmlCrawler extends WebCrawler {
     @Override
     public void visit(Page website) {
         String url = website.getWebURL().getURL();
+
         Resultaat resultaat = new Resultaat();
 
         if (website.getParseData() instanceof HtmlParseData) {

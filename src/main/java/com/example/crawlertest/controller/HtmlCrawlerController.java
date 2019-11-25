@@ -33,6 +33,7 @@ public class HtmlCrawlerController {
     @Autowired
     public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService,
                                 ResultaatService resultaatService) {
+
         this.zoekopdrachtService = zoekopdrachtService;
         this.vacatureService = vacatureService;
         this.resultaatService = resultaatService;
@@ -40,6 +41,7 @@ public class HtmlCrawlerController {
 
     @PostMapping("/")
     public void crawlWebsite(@RequestBody Zoekopdracht zoekopdracht) {
+
         File crawlOpslag = new File("src/main/resources/crawlerOpslag");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
@@ -49,7 +51,6 @@ public class HtmlCrawlerController {
         config.setThreadShutdownDelaySeconds(60);
         config.setIncludeBinaryContentInCrawling(false);
         config.setThreadMonitoringDelaySeconds(60);
-//        config.setShutdownOnEmptyQueue(false);
 
         final int numCrawlers = 10000;
 
@@ -67,14 +68,6 @@ public class HtmlCrawlerController {
                     resultaat -> resultaatService.resultaatOpslaan(resultaat));
             crawlManager.startNonBlocking(factory, numCrawlers);
 
-            final LocalDateTime verloopMoment = LocalDateTime.now().plusMinutes(15L);
-
-//            while (!LocalDateTime.now().isBefore(verloopMoment)) {
-//                crawlManager.shutdown();
-//                System.out.println("Controller is gestopt.");
-//
-//                vacatureService.maakVacatures();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
