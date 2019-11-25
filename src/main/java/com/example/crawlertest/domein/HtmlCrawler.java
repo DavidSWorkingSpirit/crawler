@@ -51,7 +51,7 @@ public class HtmlCrawler extends WebCrawler {
             Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
             if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
-                Pattern.compile("vacature/\\d{7}").matcher(url).find()) {
+                    (Pattern.compile("viewjob?").matcher(url).find() || Pattern.compile("vacature-bekijken?").matcher(url).find())) {
 
                 resultaat.setTitel(titel);
                 resultaat.setTekst(content);

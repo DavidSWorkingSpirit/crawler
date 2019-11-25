@@ -9,6 +9,8 @@ import com.example.crawlertest.services.VacatureService;
 import com.example.crawlertest.services.ZoekopdrachtService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
+import edu.uci.ics.crawler4j.crawler.authentication.AuthInfo;
+import edu.uci.ics.crawler4j.crawler.authentication.FormAuthInfo;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -43,13 +46,12 @@ public class HtmlCrawlerController {
         File crawlOpslag = new File("src/main/resources/crawlerOpslag");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
-        config.setMaxDepthOfCrawling(2);
+        config.setMaxDepthOfCrawling(4);
         config.setIncludeHttpsPages(true);
         config.setCleanupDelaySeconds(60);
         config.setThreadShutdownDelaySeconds(60);
         config.setIncludeBinaryContentInCrawling(false);
         config.setThreadMonitoringDelaySeconds(60);
-//        config.setShutdownOnEmptyQueue(false);
 
         final int numCrawlers = 10000;
 
@@ -67,14 +69,6 @@ public class HtmlCrawlerController {
                     resultaat -> resultaatService.resultaatOpslaan(resultaat));
             crawlManager.startNonBlocking(factory, numCrawlers);
 
-            final LocalDateTime verloopMoment = LocalDateTime.now().plusMinutes(15L);
-
-//            while (!LocalDateTime.now().isBefore(verloopMoment)) {
-//                crawlManager.shutdown();
-//                System.out.println("Controller is gestopt.");
-//
-//                vacatureService.maakVacatures();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
