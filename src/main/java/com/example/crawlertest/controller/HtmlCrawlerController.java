@@ -26,10 +26,7 @@ import java.util.ArrayList;
 @RequestMapping(path = "crawl")
 public class HtmlCrawlerController {
 
-    @Autowired
     private ZoekopdrachtService zoekopdrachtService;
-
-    @Autowired
     private VacatureService vacatureService;
     private ResultaatService resultaatService;
 
@@ -51,11 +48,9 @@ public class HtmlCrawlerController {
         config.setMaxDepthOfCrawling(3);
         config.setIncludeHttpsPages(true);
         config.setCleanupDelaySeconds(60);
-
         config.setThreadShutdownDelaySeconds(60);
         config.setIncludeBinaryContentInCrawling(false);
         config.setThreadMonitoringDelaySeconds(60);
-//        config.setShutdownOnEmptyQueue(false);
 
         final int numCrawlers = 10000;
 
@@ -73,15 +68,6 @@ public class HtmlCrawlerController {
                     resultaat -> resultaatService.resultaatOpslaan(resultaat));
             crawlManager.startNonBlocking(factory, numCrawlers);
 
-
-            final LocalDateTime verloopMoment = LocalDateTime.now().plusMinutes(15L);
-
-//            while (!LocalDateTime.now().isBefore(verloopMoment)) {
-//                crawlManager.shutdown();
-//                System.out.println("Controller is gestopt.");
-//
-//                vacatureService.maakVacatures();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
