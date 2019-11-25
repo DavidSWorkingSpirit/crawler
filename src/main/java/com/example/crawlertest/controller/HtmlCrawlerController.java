@@ -1,16 +1,12 @@
 package com.example.crawlertest.controller;
 
-import com.example.crawlertest.domein.CallBack;
 import com.example.crawlertest.domein.HtmlCrawler;
-import com.example.crawlertest.domein.Resultaat;
 import com.example.crawlertest.domein.Zoekopdracht;
 import com.example.crawlertest.services.ResultaatService;
 import com.example.crawlertest.services.VacatureService;
 import com.example.crawlertest.services.ZoekopdrachtService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
-import edu.uci.ics.crawler4j.crawler.authentication.AuthInfo;
-import edu.uci.ics.crawler4j.crawler.authentication.FormAuthInfo;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
@@ -21,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
@@ -36,6 +30,7 @@ public class HtmlCrawlerController {
     @Autowired
     public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService,
                                 ResultaatService resultaatService) {
+
         this.zoekopdrachtService = zoekopdrachtService;
         this.vacatureService = vacatureService;
         this.resultaatService = resultaatService;
@@ -43,6 +38,7 @@ public class HtmlCrawlerController {
 
     @PostMapping("/")
     public void crawlWebsite(@RequestBody Zoekopdracht zoekopdracht) {
+
         File crawlOpslag = new File("src/main/resources/crawlerOpslag");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
