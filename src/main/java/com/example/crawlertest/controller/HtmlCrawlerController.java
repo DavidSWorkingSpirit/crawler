@@ -45,7 +45,7 @@ public class HtmlCrawlerController {
         File crawlOpslag = new File("src/main/resources/crawlerOpslag");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
-        config.setMaxDepthOfCrawling(3);
+        config.setMaxDepthOfCrawling(2);
         config.setIncludeHttpsPages(true);
         config.setCleanupDelaySeconds(60);
         config.setThreadShutdownDelaySeconds(60);
