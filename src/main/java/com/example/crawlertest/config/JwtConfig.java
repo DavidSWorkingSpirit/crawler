@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Configuration
 public class JwtConfig {
 
-    @Value("${wsa.jwt.private.key}")
+    @Value("${ama.jwt.private.key}")
     private final String jwtPrivateKey = "jwt_private_key";
 
 
@@ -42,7 +42,7 @@ public class JwtConfig {
     @Bean
     public TokenEnhancer wsaTokenEnhancer() {
 
-        return new WsaTokenEnhancer();
+        return new TokenEnhancerWS();
     }
 
 }

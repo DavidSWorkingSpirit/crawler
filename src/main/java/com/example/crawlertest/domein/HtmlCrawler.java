@@ -15,8 +15,7 @@ public class HtmlCrawler extends WebCrawler {
 
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg))$");
-//    private final static Pattern VACATURE = Pattern.compile(".*(\\.(/vacature/"+ "))$");
+                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2))$");
 
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
 
@@ -40,7 +39,7 @@ public class HtmlCrawler extends WebCrawler {
     public void visit(Page website) {
         String url = website.getWebURL().getURL();
 
-        Resultaat resultaat = new Resultaat();
+        Vacature vacature = new Vacature();
 
         if (website.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) website.getParseData();
@@ -50,17 +49,16 @@ public class HtmlCrawler extends WebCrawler {
             String content = document.body().text();
             String titel = htmlParseData.getTitle();
             String tekst = htmlParseData.getText();
-            Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
             if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
-                Pattern.compile("vacature/\\d{7}").matcher(url).find()) {
+                Pattern.compile("it-banen/\\d{5}").matcher(url).find()) {
 
-                resultaat.setTitel(titel);
-                resultaat.setTekst(content);
-                resultaat.setUrl(url);
-                resultaat.setZoekopdracht(zoekopdracht);
+                vacature.setTitel(titel);
+                vacature.setTekst(content);
+                vacature.setUrl(url);
+                vacature.setZoekopdracht(zoekopdracht);
 
-                callBack.verwerkResultaat(resultaat);
+                callBack.verwerkVacature(vacature);
             }
         }
     }

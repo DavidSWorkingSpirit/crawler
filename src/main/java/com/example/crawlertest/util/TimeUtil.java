@@ -13,6 +13,5 @@ public class TimeUtil {
 
 //    @Scheduled(cron = "0 19 11 * * ?")
     public void maakVacatures() {
-        vacatureService.maakVacatures();
     }
 }

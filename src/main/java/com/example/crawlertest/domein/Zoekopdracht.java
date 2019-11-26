@@ -22,7 +22,7 @@ public class Zoekopdracht {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoekopdracht")
     @JsonIgnoreProperties({"zoekopdracht"})
-    private List<Resultaat> resultaten;
+    private List<Vacature> vacatures;
 
     public Long getId() {
         return id;
@@ -48,11 +48,11 @@ public class Zoekopdracht {
         this.zoekterm = zoekterm;
     }
 
-    public List<Resultaat> getResultaten() {
-        return resultaten;
+    public List<Vacature> getVacatures() {
+        return vacatures;
     }
 
-    public void setResultaten(List<Resultaat> resultaten) {
-        this.resultaten = resultaten;
+    public void setVacatures(List<Vacature> vacatures) {
+        this.vacatures = vacatures;
     }
 }

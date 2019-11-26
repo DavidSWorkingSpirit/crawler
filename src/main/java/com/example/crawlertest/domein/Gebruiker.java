@@ -1,17 +1,14 @@
 package com.example.crawlertest.domein;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity()
 @Table(name = "GEBRUIKER")
-public class  Gebruiker {
+public class Gebruiker {
 
     @Id
     @GeneratedValue(generator = "gebruiker_gen")
-    @TableGenerator(name = "gebruiker_gen", table = "wsa_sequence", pkColumnValue = "Gebruiker")
+    @TableGenerator(name = "gebruiker_gen", table = "ama_sequence", pkColumnValue = "Gebruiker")
     @Column(name = "ID")
     private Long id;
 
