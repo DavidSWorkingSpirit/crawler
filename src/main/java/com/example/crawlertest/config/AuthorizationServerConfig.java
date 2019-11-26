@@ -30,9 +30,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(1);
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(6);
 
-    @Value("${am.oauth.client.id}")
+
+    @Value("${ama.oauth.client.id}")
     private String oauthClientId;
-    @Value("${am.oauth.client.secret}")
+    @Value("${ama.oauth.client.secret}")
     private String oauthClientSecret;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;

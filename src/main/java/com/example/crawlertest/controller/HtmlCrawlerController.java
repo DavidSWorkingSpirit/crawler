@@ -2,7 +2,6 @@ package com.example.crawlertest.controller;
 
 import com.example.crawlertest.domein.HtmlCrawler;
 import com.example.crawlertest.domein.Zoekopdracht;
-import com.example.crawlertest.services.ResultaatService;
 import com.example.crawlertest.services.VacatureService;
 import com.example.crawlertest.services.ZoekopdrachtService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
@@ -25,15 +24,12 @@ public class HtmlCrawlerController {
 
     private ZoekopdrachtService zoekopdrachtService;
     private VacatureService vacatureService;
-    private ResultaatService resultaatService;
 
     @Autowired
-    public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService,
-                                ResultaatService resultaatService) {
+    public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService) {
 
         this.zoekopdrachtService = zoekopdrachtService;
         this.vacatureService = vacatureService;
-        this.resultaatService = resultaatService;
     }
 
     @PostMapping("/")
@@ -49,11 +45,11 @@ public class HtmlCrawlerController {
         try {
             CrawlController crawlManager = new CrawlController(config, fetcher, robotstxtServer);
             crawlManager.addSeed(zoekopdracht.getWebsite());
-            zoekopdracht.setResultaten(new ArrayList<>());
+            zoekopdracht.setVacatures(new ArrayList<>());
             zoekopdrachtService.zoekopdrachtOpslaan(zoekopdracht);
 
             CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> new HtmlCrawler(zoekopdracht,
-                    resultaat -> resultaatService.resultaatOpslaan(resultaat));
+                    vacature -> vacatureService.resultaatOpslaan(vacature));
             crawlManager.startNonBlocking(factory, numCrawlers);
 
         } catch (Exception e) {
