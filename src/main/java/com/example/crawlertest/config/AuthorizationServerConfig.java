@@ -43,7 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     public AuthorizationServerConfig(@Qualifier("authenticationManagerBean") final AuthenticationManager authenticationManager,
                                      final PasswordEncoder encoder, final JwtAccessTokenConverter accessTokenConverter,
-                                     final TokenStore tokenStore, TokenEnhancer wsaTokenEnhancer) {
+                                     final TokenStore tokenStore, TokenEnhancer amTokenEnhancer) {
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
         this.accessTokenConverter = accessTokenConverter;

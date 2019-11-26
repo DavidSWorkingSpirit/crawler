@@ -16,7 +16,7 @@ public class GebruikerInlog extends User {
 
     public GebruikerInlog(Gebruiker gebruiker) {
 
-        super(gebruiker.getEmailadres(), gebruiker.getWachtwoord(), Collections.singleton(
+        super(gebruiker.getGebruikersnaam(), gebruiker.getWachtwoord(), Collections.singleton(
                         (GrantedAuthority) () -> gebruiker.getRol().name()));
 
         voornaam = gebruiker.getVoornaam();

@@ -45,6 +45,7 @@ public class InitialDataConfig implements CommandLineRunner {
             gebruiker.setWachtwoord(passwordEncoder.encode(wachtwoord));
             gebruiker.setRol(GebruikersRol.ADMIN);
             gebruiker.setAchternaam("Administrator");
+            gebruiker.setGebruikersnaam("AdminA");
 
             LOGGER.log(Level.INFO, "Standaard admin account aangemaakt met wachtwoord {0}", wachtwoord);
 
@@ -62,6 +63,7 @@ public class InitialDataConfig implements CommandLineRunner {
             accountmanager.setWachtwoord(wachtwoordGeheim);
             accountmanager.setRol(GebruikersRol.ACCOUNTMANAGER);
             accountmanager.setAchternaam("Accountmanager");
+            accountmanager.setGebruikersnaam("AccMngr");
 
             LOGGER.log(Level.INFO, "Standaard accountmanager account aangemaakt met stabiel wachtwoord");
 
