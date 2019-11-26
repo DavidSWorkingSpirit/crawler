@@ -31,6 +31,9 @@ public class Gebruiker {
     @Column(name = "ACHTERNAAM", length = 256, nullable = false)
     private String achternaam;
 
+    @Column(name = "GEBRUIKERSNAAM", length = 256, nullable = false, unique = true)
+    private String gebruikersnaam;
+
     public Long getId() {
         return id;
     }
@@ -86,4 +89,8 @@ public class Gebruiker {
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
     }
+
+    public String getGebruikersnaam() { return gebruikersnaam;}
+
+    public void setGebruikersnaam(String gebruikersnaam) { this.gebruikersnaam = gebruikersnaam; }
 }

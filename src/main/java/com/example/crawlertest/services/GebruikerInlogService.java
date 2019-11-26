@@ -32,7 +32,7 @@ public class GebruikerInlogService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final Optional<Gebruiker> gebruiker = gebruikerRepository.findByEmailadres(username);
+        final Optional<Gebruiker> gebruiker = gebruikerRepository.findByGebruikersnaam(username);
 
         return gebruiker.map(GebruikerInlog::new)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Gebruiker '%s' niet gevonden", username)));
