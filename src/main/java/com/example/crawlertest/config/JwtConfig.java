@@ -40,7 +40,7 @@ public class JwtConfig {
     }
 
     @Bean
-    public TokenEnhancer wsaTokenEnhancer() {
+    public TokenEnhancer amTokenEnhancer() {
 
         return new TokenEnhancerWS();
     }

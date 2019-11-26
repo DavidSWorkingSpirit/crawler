@@ -38,17 +38,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final PasswordEncoder encoder;
     private JwtAccessTokenConverter accessTokenConverter;
     private TokenStore tokenStore;
-    private TokenEnhancer wsaTokenEnhancer;
+    private TokenEnhancer amTokenEnhancer;
 
     @Autowired
     public AuthorizationServerConfig(@Qualifier("authenticationManagerBean") final AuthenticationManager authenticationManager,
                                      final PasswordEncoder encoder, final JwtAccessTokenConverter accessTokenConverter,
-                                     final TokenStore tokenStore, TokenEnhancer wsaTokenEnhancer) {
+                                     final TokenStore tokenStore, TokenEnhancer amTokenEnhancer) {
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
         this.accessTokenConverter = accessTokenConverter;
         this.tokenStore = tokenStore;
-        this.wsaTokenEnhancer = wsaTokenEnhancer;
+        this.amTokenEnhancer = amTokenEnhancer;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(wsaTokenEnhancer, accessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(amTokenEnhancer, accessTokenConverter));
 
         endpoints //
                 .tokenStore(tokenStore) //
@@ -82,6 +82,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager) //
         ;
     }
-
-
 }

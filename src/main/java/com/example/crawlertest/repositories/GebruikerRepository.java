@@ -16,4 +16,6 @@ public interface GebruikerRepository extends CrudRepository<Gebruiker, Long> {
     List<Gebruiker> findByRol(GebruikersRol admin);
 
     List<Gebruiker> findAll();
+
+    Optional<Gebruiker> findByGebruikersnaam(String username);
 }
