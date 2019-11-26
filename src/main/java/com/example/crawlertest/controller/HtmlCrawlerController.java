@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(path = "/")
+@RequestMapping(path = "crawl")
 public class HtmlCrawlerController {
 
     private ZoekopdrachtService zoekopdrachtService;
