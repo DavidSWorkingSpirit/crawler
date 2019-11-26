@@ -30,7 +30,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(1);
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(6);
 
-
     @Value("${ama.oauth.client.id}")
     private String oauthClientId;
     @Value("${ama.oauth.client.secret}")
@@ -83,6 +82,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager) //
         ;
     }
-
-
 }
