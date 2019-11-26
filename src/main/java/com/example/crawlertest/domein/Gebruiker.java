@@ -11,7 +11,7 @@ public class  Gebruiker {
 
     @Id
     @GeneratedValue(generator = "gebruiker_gen")
-    @TableGenerator(name = "gebruiker_gen", table = "wsa_sequence", pkColumnValue = "Gebruiker")
+    @TableGenerator(name = "gebruiker_gen", table = "am_sequence", pkColumnValue = "Gebruiker")
     @Column(name = "ID")
     private Long id;
 

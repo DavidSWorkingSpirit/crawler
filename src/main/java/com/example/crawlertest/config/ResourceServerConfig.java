@@ -36,7 +36,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests().antMatchers("/home/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/home", "/email").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/home", "/crawler").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
     }
 }

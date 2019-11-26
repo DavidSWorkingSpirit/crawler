@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping(path = "crawl")
+@RequestMapping(path = "/")
 public class HtmlCrawlerController {
 
     @Autowired

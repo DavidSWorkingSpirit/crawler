@@ -30,15 +30,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(1);
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = (int) TimeUnit.HOURS.toSeconds(6);
 
-    @Value("${wsa.oauth.client.id}")
+    @Value("${am.oauth.client.id}")
     private String oauthClientId;
-    @Value("${wsa.oauth.client.secret}")
+    @Value("${am.oauth.client.secret}")
     private String oauthClientSecret;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;
     private JwtAccessTokenConverter accessTokenConverter;
     private TokenStore tokenStore;
-    private TokenEnhancer wsaTokenEnhancer;
+    private TokenEnhancer amTokenEnhancer;
 
     @Autowired
     public AuthorizationServerConfig(@Qualifier("authenticationManagerBean") final AuthenticationManager authenticationManager,
@@ -48,7 +48,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         this.encoder = encoder;
         this.accessTokenConverter = accessTokenConverter;
         this.tokenStore = tokenStore;
-        this.wsaTokenEnhancer = wsaTokenEnhancer;
+        this.amTokenEnhancer = amTokenEnhancer;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(wsaTokenEnhancer, accessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(amTokenEnhancer, accessTokenConverter));
 
         endpoints //
                 .tokenStore(tokenStore) //
