@@ -14,8 +14,14 @@ public class Vacature {
     @Column(name = "TITEL", length = 2000)
     private String titel;
 
+    @Column(name = "TEKST", length = 100000)
+    private String tekst;
+
     @Column(name = "URL", unique = true)
     private String url;
+
+    @ManyToOne
+    private Zoekopdracht zoekopdracht;
 
     public Long getId() {
         return id;
@@ -33,11 +39,27 @@ public class Vacature {
         this.titel = titel;
     }
 
+    public String getTekst() {
+        return tekst;
+    }
+
+    public void setTekst(String tekst) {
+        this.tekst = tekst;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Zoekopdracht getZoekopdracht() {
+        return zoekopdracht;
+    }
+
+    public void setZoekopdracht(Zoekopdracht zoekopdracht) {
+        this.zoekopdracht = zoekopdracht;
     }
 }

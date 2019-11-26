@@ -1,51 +1,38 @@
 package com.example.crawlertest.services;
 
-import com.example.crawlertest.domein.Resultaat;
 import com.example.crawlertest.domein.Vacature;
-import com.example.crawlertest.repositories.ResultaatRepository;
 import com.example.crawlertest.repositories.VacatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 @Service
 public class VacatureService {
 
-    private int nummer = 0;
+    private final Logger LOGGER = Logger.getLogger("VacatureServiceLog");
     private VacatureRepository vacatureRepository;
-    private ResultaatRepository resultaatRepository;
 
     @Autowired
-    public VacatureService(VacatureRepository vacatureRepo, ResultaatRepository resultaatRepo) {
+    public VacatureService(VacatureRepository vacatureRepo) {
         this.vacatureRepository = vacatureRepo;
-        this.resultaatRepository = resultaatRepo;
     }
 
-    public void maakVacatures() {
-        List<Resultaat> resultaten = resultaatRepository.findAll();
-
-        List<Vacature> vacatures = resultaten.stream().map(resultaat -> scanResultaat(resultaat))
-                                                      .filter(vacature -> vacature != null)
-                                                      .collect(Collectors.toList());
-
-        vacatureRepository.saveAll(vacatures);
-    }
-
-    public Vacature scanResultaat(Resultaat resultaat) {
-
-        if (!vacatureRepository.findByUrl(resultaat.getUrl()).isPresent()) {
-            Vacature vacature = new Vacature();
-            vacature.setTitel(resultaat.getTitel());
-            vacature.setUrl(resultaat.getUrl());
-
-            nummer++;
-            System.out.println("Vacature " + nummer + " wordt aangemaakt.");
-
-            return vacature;
+    public boolean resultaatOpslaan(Vacature vacature) {
+        if (!vacatureBestaatAl(vacature.getUrl())) {
+            vacatureRepository.save(vacature);
+            LOGGER.info("Nieuwe vacature gevonden: " + vacature.getTitel());
         }
 
-        return null;
+        if (vacatureRepository.findByUrl(vacature.getUrl()).isPresent()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean vacatureBestaatAl(String url) {
+
+        return vacatureRepository.findByUrl(url).isPresent();
     }
 }

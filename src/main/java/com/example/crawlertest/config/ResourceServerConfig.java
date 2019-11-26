@@ -26,7 +26,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 
         resources //
-                .resourceId("wsa-opleidingen-resource-id") //
+                .resourceId("am-applicatie-resource-id") //
                 .stateless(true) //
                 .tokenStore(tokenStore) //
         ;
@@ -35,8 +35,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/home/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/home", "/email").permitAll();
+        http.authorizeRequests().antMatchers("/crawl/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
     }
 }
