@@ -8,7 +8,6 @@ import java.util.Collections;
 
 public class GebruikerInlog extends User {
 
-
     private final String voornaam;
     private final String tussenvoegsel;
     private final String achternaam;
