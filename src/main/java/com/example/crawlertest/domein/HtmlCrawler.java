@@ -15,7 +15,7 @@ public class HtmlCrawler extends WebCrawler {
 
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2))$");
+                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2|ttf|php))$");
 
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
 
@@ -51,7 +51,7 @@ public class HtmlCrawler extends WebCrawler {
             String tekst = htmlParseData.getText();
 
             if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
-                Pattern.compile("it-banen/\\d{5}").matcher(url).find()) {
+                Pattern.compile("opdracht/").matcher(url).find()) {
 
                 vacature.setTitel(titel);
                 vacature.setTekst(content);
