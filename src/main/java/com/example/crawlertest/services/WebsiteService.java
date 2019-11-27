@@ -49,6 +49,18 @@ public class WebsiteService {
         return false;
     }
 
+    public boolean verwijderWebsite(Long id) {
+        Optional<Website> teVerwijderenWebsite = websiteRepository.findById(id);
+
+        if (teVerwijderenWebsite.isPresent()) {
+            websiteRepository.delete(teVerwijderenWebsite.get());
+
+            return !websiteRepository.findById(id).isPresent();
+        }
+
+        return false;
+    }
+
     private boolean isGelijk(Website bestaand, Website gewijzigd) {
         boolean gelijkeNaam = bestaand.getNaam().equals(gewijzigd.getNaam());
         boolean gelijkeUrl = bestaand.getUrl().equals(gewijzigd.getUrl());
