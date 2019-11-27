@@ -12,13 +12,13 @@ public class Website {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAAM")
+    @Column(name = "NAAM", nullable = false)
     private String naam;
 
-    @Column(name = "URL", length = 1000)
+    @Column(name = "URL", length = 767, nullable = false, unique = true)
     private String url;
 
-    @Column(name = "filter")
+    @Column(name = "filter", nullable = false)
     private String filter;
 
     public Long getId() {
