@@ -34,4 +34,21 @@ public class WebsiteController {
 
         return websiteService.geefAlleWebsites();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Website> geefWebsite(@PathVariable Long id) {
+
+        return websiteService.geefWebsiteOpId(id).map(website -> ResponseEntity.ok(website))
+                                                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity wijzigWebsite(@PathVariable Long id, @RequestBody Website website) {
+
+        if (websiteService.wijzigWebsite(id, website)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }
