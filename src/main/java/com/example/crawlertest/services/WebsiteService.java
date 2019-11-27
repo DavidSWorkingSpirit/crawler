@@ -26,12 +26,10 @@ public class WebsiteService {
         if (websiteRepository.findById(website.getId()).isPresent()) {
             return true;
         }
-
         return false;
     }
 
     public List<Website> geefAlleWebsites() {
-
         return websiteRepository.findAll();
     }
 

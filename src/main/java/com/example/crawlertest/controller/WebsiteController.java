@@ -25,13 +25,11 @@ public class WebsiteController {
         if (websiteService.websiteOpslaan(website)) {
             return ResponseEntity.ok().build();
         }
-
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/")
     public List<Website> geefAlleWebsites() {
-
         return websiteService.geefAlleWebsites();
     }
 
