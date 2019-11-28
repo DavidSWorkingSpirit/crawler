@@ -1,6 +1,7 @@
 package com.example.crawlertest.controller;
 
 import com.example.crawlertest.domein.Vacature;
+import com.example.crawlertest.domein.VacatureDTO;
 import com.example.crawlertest.services.VacatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class VacatureController {
 
     @GetMapping("/")
     public ResponseEntity haalAlleVacaturesOp() {
-        List<Vacature> vacatureLijst = vacatureService.alleVacatures();
+        List<VacatureDTO> vacatureLijst = vacatureService.alleVacatures();
         return ResponseEntity.ok(vacatureLijst);
     }
 }

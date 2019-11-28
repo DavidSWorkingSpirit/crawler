@@ -1,10 +1,13 @@
 package com.example.crawlertest.services;
 
 import com.example.crawlertest.domein.Vacature;
+import com.example.crawlertest.domein.VacatureDTO;
 import com.example.crawlertest.repositories.VacatureRepository;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -37,8 +40,20 @@ public class VacatureService {
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
-    public List alleVacatures(){
+    public List<VacatureDTO> alleVacatures(){
 
-        return vacatureRepository.findAll();
+        List<Vacature> vacatures = vacatureRepository.findAll();
+        VacatureDTO vacatureDTO = new VacatureDTO();
+        List<VacatureDTO> vacatureLijst = new ArrayList<>();
+
+        for (Vacature vacature : vacatures) {
+            vacatureDTO.setId(vacature.getId());
+            vacatureDTO.setTitel(vacature.getTitel());
+            vacatureDTO.setUrl(vacature.getUrl());
+
+            vacatureLijst.add(vacatureDTO);
+        }
+        return vacatureLijst;
     }
+
 }
