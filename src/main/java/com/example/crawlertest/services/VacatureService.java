@@ -5,6 +5,7 @@ import com.example.crawlertest.repositories.VacatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -34,5 +35,10 @@ public class VacatureService {
     public boolean vacatureBestaatAl(String url) {
 
         return vacatureRepository.findByUrl(url).isPresent();
+    }
+
+    public List alleVacatures(){
+
+        return vacatureRepository.findAll();
     }
 }
