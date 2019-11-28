@@ -33,4 +33,31 @@ public class GebruikerController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Gebruiker> geefGebruiker(@PathVariable Long id) {
+
+        return gebruikerService.geefGebruikerOpId(id).map(gebruiker -> ResponseEntity.ok(gebruiker))
+                                                     .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity gebruikerWijzigen(@PathVariable Long id, @RequestBody Gebruiker gebruiker) {
+
+        if (gebruikerService.gebruikerWijzigen(id, gebruiker)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity verwijderGebruiker(@PathVariable Long id) {
+
+        if (gebruikerService.gebruikerVerwijderen(id)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }

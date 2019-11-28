@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GebruikerService {
@@ -43,5 +44,33 @@ public class GebruikerService {
         }
 
         return gebruikerRepository.findById(gebruiker.getId()).isPresent();
+    }
+
+    public Optional<Gebruiker> geefGebruikerOpId(Long id) {
+
+        return gebruikerRepository.findById(id);
+    }
+
+    public boolean gebruikerWijzigen(Long id, Gebruiker gebruiker) {
+        Optional<Gebruiker> teWijzigenGebruiker = gebruikerRepository.findById(id);
+
+        if (teWijzigenGebruiker.isPresent()) {
+            gebruikerRepository.save(gebruiker);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean gebruikerVerwijderen(Long id) {
+        Optional<Gebruiker> teVerwijderenGebruiker = gebruikerRepository.findById(id);
+
+        if (teVerwijderenGebruiker.isPresent()) {
+            gebruikerRepository.delete(teVerwijderenGebruiker.get());
+
+            return !gebruikerRepository.findById(id).isPresent();
+        }
+
+        return false;
     }
 }
