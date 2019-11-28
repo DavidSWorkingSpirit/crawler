@@ -49,4 +49,14 @@ public class WebsiteController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity verwijderWebsite(@PathVariable Long id) {
+
+        if (websiteService.verwijderWebsite(id)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }
