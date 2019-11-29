@@ -3,10 +3,10 @@ package com.example.crawlertest.services;
 import com.example.crawlertest.domein.Vacature;
 import com.example.crawlertest.domein.VacatureDTO;
 import com.example.crawlertest.repositories.VacatureRepository;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,9 +18,7 @@ public class VacatureService {
     private VacatureRepository vacatureRepository;
 
     @Autowired
-    public VacatureService(VacatureRepository vacatureRepo) {
-        this.vacatureRepository = vacatureRepo;
-    }
+    public VacatureService(VacatureRepository vacatureRepo) {this.vacatureRepository = vacatureRepo;}
 
     public boolean vacatureOpslaan(Vacature vacature) {
         if (!vacatureBestaatAl(vacature.getUrl())) {
@@ -31,29 +29,29 @@ public class VacatureService {
         if (vacatureRepository.findByUrl(vacature.getUrl()).isPresent()) {
             return true;
         }
-
         return false;
     }
 
     public boolean vacatureBestaatAl(String url) {
-
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
-    public List<VacatureDTO> alleVacatures(){
+    public List<VacatureDTO> alleVacatures(int page, int size, String sortDir, String sort){
 
-        List<Vacature> vacatures = vacatureRepository.findAll();
-        VacatureDTO vacatureDTO = new VacatureDTO();
+        Pageable pageable = PageRequest.of(page, size);
+        List<Vacature> vacatures = (vacatureRepository.findAll(pageable)).getContent();
+        System.out.println(vacatureRepository.findAll(pageable));
+        System.out.println(vacatures.get(0).getTitel());
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
 
-        for (Vacature vacature : vacatures) {
-            vacatureDTO.setId(vacature.getId());
-            vacatureDTO.setTitel(vacature.getTitel());
-            vacatureDTO.setUrl(vacature.getUrl());
+        for (Vacature element:vacatures) {
+            VacatureDTO tempVacatureDTO = new VacatureDTO();
+            tempVacatureDTO.setUrl(element.getUrl());
+            tempVacatureDTO.setTitel(element.getTitel());
+            tempVacatureDTO.setId(element.getId());
 
-            vacatureLijst.add(vacatureDTO);
+            vacatureLijst.add(tempVacatureDTO);
         }
         return vacatureLijst;
     }
-
 }
