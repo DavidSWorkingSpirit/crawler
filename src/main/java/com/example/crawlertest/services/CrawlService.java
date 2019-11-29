@@ -31,17 +31,20 @@ public class CrawlService {
     }
 
     public void crawlWebsites() {
-        CrawlConfig config = geefCrawlConfig();
-        List<Zoekterm> zoektermen = zoektermService.geefAlleZoektermen();
         final int AANTAL_THREADS = 1000;
+        final List<Zoekterm> zoektermen = zoektermService.geefAlleZoektermen();
+        final List<Website> websites = websiteService.geefAlleWebsites();
 
-        PageFetcher fetcher = new PageFetcher(config);
-        RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
-        RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, fetcher);
-
-        List<Website> websites = websiteService.geefAlleWebsites();
+        CrawlConfig config = geefCrawlConfig();
 
         for (Website website : websites) {
+            File crawlOpslag = new File("src/main/resources/crawlerOpslag/" + website.getNaam());
+            config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
+
+            PageFetcher fetcher = new PageFetcher(config);
+            RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+            RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, fetcher);
+
             try {
                 CrawlController crawlManager = new CrawlController(config, fetcher, robotstxtServer);
                 crawlManager.addSeed(website.getUrl());     // voegt starturl toe aan crawler
@@ -59,9 +62,9 @@ public class CrawlService {
     }
 
     private CrawlConfig geefCrawlConfig() {
-        File crawlOpslag = new File("src/main/resources/crawlerOpslag");
+
         CrawlConfig config = new CrawlConfig();
-        config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
+
         config.setMaxDepthOfCrawling(2);
         config.setCleanupDelaySeconds(60);
         config.setThreadShutdownDelaySeconds(60);
