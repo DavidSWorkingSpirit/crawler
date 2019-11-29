@@ -34,4 +34,31 @@ public class ZoektermController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Zoekterm> geefZoekterm(@PathVariable Long id) {
+
+        return zoektermService.geefZoektermOpId(id).map(zoekterm -> ResponseEntity.ok(zoekterm))
+                                                   .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity zoektermWijzigen(@PathVariable Long id, @RequestBody Zoekterm zoekterm) {
+
+        if (zoektermService.wijzigZoekterm(id, zoekterm)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity verwijderZoekterm(@PathVariable Long id) {
+
+        if (zoektermService.verwijderZoekterm(id)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }
