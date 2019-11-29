@@ -3,7 +3,6 @@ package com.example.crawlertest.services;
 import com.example.crawlertest.domein.Vacature;
 import com.example.crawlertest.domein.VacatureDTO;
 import com.example.crawlertest.repositories.VacatureRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ public class VacatureService {
 
     private final Logger LOGGER = Logger.getLogger("VacatureServiceLog");
     private VacatureRepository vacatureRepository;
-    public ModelMapper modelMapper;
 
     @Autowired
     public VacatureService(VacatureRepository vacatureRepo) {this.vacatureRepository = vacatureRepo;}
@@ -31,12 +29,10 @@ public class VacatureService {
         if (vacatureRepository.findByUrl(vacature.getUrl()).isPresent()) {
             return true;
         }
-
         return false;
     }
 
     public boolean vacatureBestaatAl(String url) {
-
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
