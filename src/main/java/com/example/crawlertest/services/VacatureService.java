@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -20,12 +19,8 @@ public class VacatureService {
     private VacatureRepository vacatureRepository;
     public ModelMapper modelMapper;
 
-
     @Autowired
     public VacatureService(VacatureRepository vacatureRepo) {this.vacatureRepository = vacatureRepo;}
-
-
-
 
     public boolean vacatureOpslaan(Vacature vacature) {
         if (!vacatureBestaatAl(vacature.getUrl())) {
