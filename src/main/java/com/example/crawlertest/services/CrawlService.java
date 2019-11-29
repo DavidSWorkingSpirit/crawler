@@ -1,57 +1,60 @@
-package com.example.crawlertest.controller;
+package com.example.crawlertest.services;
 
 import com.example.crawlertest.domein.HtmlCrawler;
 import com.example.crawlertest.domein.Website;
 import com.example.crawlertest.domein.Zoekterm;
-import com.example.crawlertest.services.VacatureService;
-import com.example.crawlertest.services.ZoektermService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Logger;
 
-@RestController
-@RequestMapping(path = "crawl")
-public class HtmlCrawlerController {
+@Service
+public class CrawlService {
 
+    private WebsiteService websiteService;
     private VacatureService vacatureService;
     private ZoektermService zoektermService;
 
-    @Autowired
-    public HtmlCrawlerController(VacatureService vacatureService, ZoektermService zoektermService) {
+    private final Logger LOGGER = Logger.getLogger("CrawlServiceLog");
 
+    @Autowired
+    public CrawlService(WebsiteService websiteService, VacatureService vacatureService, ZoektermService zoektermService) {
+        this.websiteService = websiteService;
         this.vacatureService = vacatureService;
         this.zoektermService = zoektermService;
     }
 
-    @PostMapping("/")
-    public void crawlWebsite(@RequestBody Website website) {
+    public void crawlWebsites() {
         CrawlConfig config = geefCrawlConfig();
         List<Zoekterm> zoektermen = zoektermService.geefAlleZoektermen();
-        final int numCrawlers = 10000;
+        final int AANTAL_THREADS = 1000;
 
         PageFetcher fetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, fetcher);
 
-        try {
-            CrawlController crawlManager = new CrawlController(config, fetcher, robotstxtServer);
-            crawlManager.addSeed(website.getUrl());
+        List<Website> websites = websiteService.geefAlleWebsites();
 
-            CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> new HtmlCrawler(website,
-                    vacature -> vacatureService.vacatureOpslaan(vacature), zoektermen);
-            crawlManager.startNonBlocking(factory, numCrawlers);
+        for (Website website : websites) {
+            try {
+                CrawlController crawlManager = new CrawlController(config, fetcher, robotstxtServer);
+                crawlManager.addSeed(website.getUrl());     // voegt starturl toe aan crawler
 
-        } catch (Exception e) {
-            e.printStackTrace();
+                CrawlController.WebCrawlerFactory<HtmlCrawler> crawlerFactory = () -> new HtmlCrawler(website,
+                        vacature -> vacatureService.vacatureOpslaan(vacature), zoektermen);
+
+                crawlManager.startNonBlocking(crawlerFactory, AANTAL_THREADS);
+                LOGGER.info("Start crawlen van " + website.getNaam());
+            } catch (Exception e) {
+                LOGGER.info("Exception tijdens crawlen van website: " + website.getNaam());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,11 +63,11 @@ public class HtmlCrawlerController {
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlOpslag.getAbsolutePath());
         config.setMaxDepthOfCrawling(2);
-        config.setIncludeHttpsPages(true);
         config.setCleanupDelaySeconds(60);
         config.setThreadShutdownDelaySeconds(60);
-        config.setIncludeBinaryContentInCrawling(false);
         config.setThreadMonitoringDelaySeconds(60);
+        config.setIncludeHttpsPages(true);
+        config.setIncludeBinaryContentInCrawling(false);
 
         return config;
     }
