@@ -55,5 +55,4 @@ public class VacatureService {
         }
         return vacatureLijst;
     }
-
 }
