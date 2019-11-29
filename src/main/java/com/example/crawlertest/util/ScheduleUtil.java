@@ -19,7 +19,7 @@ public class ScheduleUtil {
 
     private final Logger LOGGER = Logger.getLogger("ScheduleUtilLog");
 
-    @Scheduled(cron = "0 24 14 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void crawl() {
         if (websiteService.geefAlleWebsites().size() > 0) {
             crawlService.crawlWebsites();
