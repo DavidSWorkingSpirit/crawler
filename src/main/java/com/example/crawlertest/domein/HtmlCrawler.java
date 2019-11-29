@@ -7,6 +7,7 @@ import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -15,17 +16,19 @@ public class HtmlCrawler extends WebCrawler {
 
     private final static Pattern UITZONDERINGEN = Pattern.compile(
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
-                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2|ttf|php))$");
+                    "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2|ttf|php|ni|design))$");
 
     private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
 
-    private Zoekopdracht zoekopdracht;
+    private Website website;
     private CallBack callBack;
+    private List<Zoekterm> zoektermen;
 
-    public HtmlCrawler(Zoekopdracht zoekopdracht, CallBack callBack) {
+    public HtmlCrawler(Website website, CallBack callBack, List<Zoekterm> zoektermen) {
 
-        this.zoekopdracht = zoekopdracht;
+        this.website = website;
         this.callBack = callBack;
+        this.zoektermen = zoektermen;
     }
 
     @Override
@@ -36,27 +39,26 @@ public class HtmlCrawler extends WebCrawler {
     }
 
     @Override
-    public void visit(Page website) {
-        String url = website.getWebURL().getURL();
+    public void visit(Page webpagina) {
+        String url = webpagina.getWebURL().getURL();
 
         Vacature vacature = new Vacature();
 
-        if (website.getParseData() instanceof HtmlParseData) {
-            HtmlParseData htmlParseData = (HtmlParseData) website.getParseData();
+        if (webpagina.getParseData() instanceof HtmlParseData) {
+            HtmlParseData htmlParseData = (HtmlParseData) webpagina.getParseData();
             String html = htmlParseData.getHtml();
             Document document = Jsoup.parse(html);
 
             String content = document.body().text();
             String titel = htmlParseData.getTitle();
-            String tekst = htmlParseData.getText();
 
-            if (content.toLowerCase().contains(zoekopdracht.getZoekterm().toLowerCase()) &&
-                Pattern.compile("opdracht/").matcher(url).find()) {
+            if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
+            Pattern.compile(website.getFilter()).matcher(url).find()) {
 
                 vacature.setTitel(titel);
                 vacature.setTekst(content);
                 vacature.setUrl(url);
-                vacature.setZoekopdracht(zoekopdracht);
+                vacature.setWebsite(website);
 
                 callBack.verwerkVacature(vacature);
             }
