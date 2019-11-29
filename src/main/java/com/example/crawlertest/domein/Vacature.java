@@ -1,7 +1,6 @@
 package com.example.crawlertest.domein;
 
 import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
