@@ -1,6 +1,9 @@
 package com.example.crawlertest.domein;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity()
 @Table(name = "WEBSITE")
@@ -18,8 +21,12 @@ public class Website {
     @Column(name = "URL", length = 767, nullable = false, unique = true)
     private String url;
 
-    @Column(name = "filter", nullable = false)
+    @Column(name = "FILTER", nullable = false)
     private String filter;
+
+    @OneToMany(mappedBy = "website")
+    @JsonIgnoreProperties({"website"})
+    private List<Vacature> vacatures;
 
     public Long getId() {
         return id;
@@ -51,5 +58,13 @@ public class Website {
 
     public void setFilter(String filter) {
         this.filter = filter;
+    }
+
+    public List<Vacature> getVacatures() {
+        return vacatures;
+    }
+
+    public void setVacatures(List<Vacature> vacatures) {
+        this.vacatures = vacatures;
     }
 }

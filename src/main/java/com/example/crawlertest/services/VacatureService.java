@@ -22,7 +22,7 @@ public class VacatureService {
         this.vacatureRepository = vacatureRepo;
     }
 
-    public boolean resultaatOpslaan(Vacature vacature) {
+    public boolean vacatureOpslaan(Vacature vacature) {
         if (!vacatureBestaatAl(vacature.getUrl())) {
             vacatureRepository.save(vacature);
             LOGGER.info("Nieuwe vacature gevonden: " + vacature.getTitel());

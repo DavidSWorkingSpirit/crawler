@@ -20,10 +20,6 @@ public class Zoekopdracht {
     @Column(name = "ZOEKTERM")
     private String zoekterm;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "zoekopdracht")
-    @JsonIgnoreProperties({"zoekopdracht"})
-    private List<Vacature> vacatures;
-
     public Long getId() {
         return id;
     }
@@ -46,13 +42,5 @@ public class Zoekopdracht {
 
     public void setZoekterm(String zoekterm) {
         this.zoekterm = zoekterm;
-    }
-
-    public List<Vacature> getVacatures() {
-        return vacatures;
-    }
-
-    public void setVacatures(List<Vacature> vacatures) {
-        this.vacatures = vacatures;
     }
 }

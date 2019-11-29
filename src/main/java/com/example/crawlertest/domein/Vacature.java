@@ -1,6 +1,9 @@
 package com.example.crawlertest.domein;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity()
 @Table(name = "Vacature")
@@ -20,8 +23,12 @@ public class Vacature {
     @Column(name = "URL", unique = true)
     private String url;
 
+    @CreationTimestamp
+    @Column(name = "DATUM")
+    private Timestamp datum;
+
     @ManyToOne
-    private Zoekopdracht zoekopdracht;
+    private Website website;
 
     public Long getId() {
         return id;
@@ -55,11 +62,19 @@ public class Vacature {
         this.url = url;
     }
 
-    public Zoekopdracht getZoekopdracht() {
-        return zoekopdracht;
+    public Timestamp getDatum() {
+        return datum;
     }
 
-    public void setZoekopdracht(Zoekopdracht zoekopdracht) {
-        this.zoekopdracht = zoekopdracht;
+    public void setDatum(Timestamp datum) {
+        this.datum = datum;
+    }
+
+    public Website getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(Website website) {
+        this.website = website;
     }
 }

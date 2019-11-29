@@ -1,9 +1,10 @@
 package com.example.crawlertest.controller;
 
 import com.example.crawlertest.domein.HtmlCrawler;
-import com.example.crawlertest.domein.Zoekopdracht;
+import com.example.crawlertest.domein.Website;
+import com.example.crawlertest.domein.Zoekterm;
 import com.example.crawlertest.services.VacatureService;
-import com.example.crawlertest.services.ZoekopdrachtService;
+import com.example.crawlertest.services.ZoektermService;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
@@ -16,26 +17,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "crawl")
 public class HtmlCrawlerController {
 
-    private ZoekopdrachtService zoekopdrachtService;
     private VacatureService vacatureService;
+    private ZoektermService zoektermService;
 
     @Autowired
-    public HtmlCrawlerController(ZoekopdrachtService zoekopdrachtService, VacatureService vacatureService) {
+    public HtmlCrawlerController(VacatureService vacatureService, ZoektermService zoektermService) {
 
-        this.zoekopdrachtService = zoekopdrachtService;
         this.vacatureService = vacatureService;
+        this.zoektermService = zoektermService;
     }
 
     @PostMapping("/")
-    public void crawlWebsite(@RequestBody Zoekopdracht zoekopdracht) {
+    public void crawlWebsite(@RequestBody Website website) {
         CrawlConfig config = geefCrawlConfig();
-
+        List<Zoekterm> zoektermen = zoektermService.geefAlleZoektermen();
         final int numCrawlers = 10000;
 
         PageFetcher fetcher = new PageFetcher(config);
@@ -44,12 +45,10 @@ public class HtmlCrawlerController {
 
         try {
             CrawlController crawlManager = new CrawlController(config, fetcher, robotstxtServer);
-            crawlManager.addSeed(zoekopdracht.getWebsite());
-            zoekopdracht.setVacatures(new ArrayList<>());
-            zoekopdrachtService.zoekopdrachtOpslaan(zoekopdracht);
+            crawlManager.addSeed(website.getUrl());
 
-            CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> new HtmlCrawler(zoekopdracht,
-                    vacature -> vacatureService.resultaatOpslaan(vacature));
+            CrawlController.WebCrawlerFactory<HtmlCrawler> factory = () -> new HtmlCrawler(website,
+                    vacature -> vacatureService.vacatureOpslaan(vacature), zoektermen);
             crawlManager.startNonBlocking(factory, numCrawlers);
 
         } catch (Exception e) {
