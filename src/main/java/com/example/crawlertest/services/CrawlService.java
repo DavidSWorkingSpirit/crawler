@@ -51,8 +51,6 @@ public class CrawlService {
 
                 crawlManager.startNonBlocking(crawlerFactory, AANTAL_THREADS);
                 LOGGER.info("Start crawlen van " + website.getNaam());
-//                crawlManager.waitUntilFinish();
-//                LOGGER.info("Het crawlen van website: " + website.getNaam() + " is beëindigd");
             } catch (Exception e) {
                 LOGGER.info("Exception tijdens crawlen van website: " + website.getNaam());
                 e.printStackTrace();
