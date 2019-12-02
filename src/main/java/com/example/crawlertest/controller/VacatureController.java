@@ -5,10 +5,7 @@ import com.example.crawlertest.domein.VacatureDTO;
 import com.example.crawlertest.services.VacatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class VacatureController {
     @Autowired
     public VacatureController(VacatureService vacatureService){this.vacatureService = vacatureService;}
 
-    @GetMapping("/")
+    @PostMapping("/")
     public ResponseEntity haalAlleVacaturesOp(@RequestBody SorteerDTO sorteerDTO) {
         List<VacatureDTO> vacatureLijst = vacatureService.alleVacatures(sorteerDTO.getPage(),
                 sorteerDTO.getSize(), sorteerDTO.getSortDir(), sorteerDTO.getSort());
