@@ -26,9 +26,6 @@ public class Vacature {
     @Column(name = "DATUM")
     private Timestamp datum;
 
-    @ManyToOne
-    private Website website;
-
     public Long getId() {
         return id;
     }
@@ -67,13 +64,5 @@ public class Vacature {
 
     public void setDatum(Timestamp datum) {
         this.datum = datum;
-    }
-
-    public Website getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(Website website) {
-        this.website = website;
     }
 }
