@@ -23,10 +23,6 @@ public class Website {
     @Column(name = "FILTER", nullable = false)
     private String filter;
 
-    @OneToMany(mappedBy = "website")
-    @JsonIgnoreProperties({"website"})
-    private List<Vacature> vacatures;
-
     public Long getId() {
         return id;
     }
@@ -57,13 +53,5 @@ public class Website {
 
     public void setFilter(String filter) {
         this.filter = filter;
-    }
-
-    public List<Vacature> getVacatures() {
-        return vacatures;
-    }
-
-    public void setVacatures(List<Vacature> vacatures) {
-        this.vacatures = vacatures;
     }
 }

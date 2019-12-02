@@ -58,7 +58,6 @@ public class HtmlCrawler extends WebCrawler {
                 vacature.setTitel(titel);
                 vacature.setTekst(content);
                 vacature.setUrl(url);
-                vacature.setWebsite(website);
 
                 callBack.verwerkVacature(vacature);
             }
