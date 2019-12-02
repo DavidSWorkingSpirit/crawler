@@ -25,4 +25,11 @@ public class VacatureController {
 
         return ResponseEntity.ok(vacatureLijst);
     }
+
+    @GetMapping("/")
+    public ResponseEntity krijgAantalVacatures(){
+        long aantal = vacatureService.aantalVacaturesOphalen();
+        Long aantalVacatures = aantal;
+        return ResponseEntity.ok(aantalVacatures);
+    }
 }

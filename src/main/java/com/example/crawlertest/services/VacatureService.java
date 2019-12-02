@@ -40,8 +40,6 @@ public class VacatureService {
 
         Pageable pageable = PageRequest.of(page, size);
         List<Vacature> vacatures = (vacatureRepository.findAll(pageable)).getContent();
-        System.out.println(vacatureRepository.findAll(pageable));
-        System.out.println(vacatures.get(0).getTitel());
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
 
         for (Vacature element:vacatures) {
@@ -53,5 +51,10 @@ public class VacatureService {
             vacatureLijst.add(tempVacatureDTO);
         }
         return vacatureLijst;
+    }
+
+    public int aantalVacaturesOphalen (){
+        int aantalVacatures;
+        return aantalVacatures = vacatureRepository.findAll().size();
     }
 }

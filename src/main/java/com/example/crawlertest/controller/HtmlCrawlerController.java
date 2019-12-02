@@ -36,7 +36,7 @@ public class HtmlCrawlerController {
     public void crawlWebsite(@RequestBody Website website) {
         CrawlConfig config = geefCrawlConfig();
         List<Zoekterm> zoektermen = zoektermService.geefAlleZoektermen();
-        final int numCrawlers = 10000;
+        final int numCrawlers = 1000;
 
         PageFetcher fetcher = new PageFetcher(config);
         RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

@@ -5,6 +5,7 @@ public class VacatureDTO {
     private Long id;
     private String titel;
     private String url;
+    private Long aantalVactures;
 
     public Long getId() {
         return id;
@@ -29,4 +30,8 @@ public class VacatureDTO {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Long getAantalVactures() { return aantalVactures; }
+
+    public void setAantalVactures(Long aantalVactures) { this.aantalVactures = aantalVactures; }
 }
