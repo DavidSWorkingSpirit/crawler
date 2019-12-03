@@ -4,7 +4,9 @@ import com.example.crawlertest.domein.Vacature;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +15,14 @@ import java.util.Optional;
 public interface VacatureRepository extends PagingAndSortingRepository<Vacature, Integer> {
 
     Optional<Vacature> findByUrl(String url);
-    Page<Vacature> findAll(Pageable pageable);
     List<Vacature> findAll();
+
+    @Query(value = "SELECT * FROM vacature e WHERE e.tekst LIKE %?1%",
+    nativeQuery = true)
+    Page<Vacature> findAllByTekst(String zoekopdracht, Pageable pageable);
+
+    @Query(value = "SELECT * FROM vacature e WHERE e.tekst LIKE %?1%",
+    nativeQuery = true)
+    List<Vacature> findAllByTekst(String zoekopdracht);
 
 }

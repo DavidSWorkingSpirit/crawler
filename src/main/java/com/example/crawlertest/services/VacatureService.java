@@ -36,22 +36,27 @@ public class VacatureService {
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
-    public List<VacatureDTO> alleVacatures(int page, int size, String sortDir, String sort){
+    public List<VacatureDTO> alleVacatures(int page, int size, String sortDir, String sort, String zoekopdracht){
 
         Pageable pageable = PageRequest.of(page, size);
-        List<Vacature> vacatures = (vacatureRepository.findAll(pageable)).getContent();
-        System.out.println(vacatureRepository.findAll(pageable));
-        System.out.println(vacatures.get(0).getTitel());
+        String filterOpdracht = "%"+zoekopdracht+"%";
+        List<Vacature> vacatures = (vacatureRepository.findAllByTekst(filterOpdracht, pageable)).getContent();
+
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
+        for (Vacature vacature:vacatures) {
+                VacatureDTO tempVacatureDTO = new VacatureDTO();
+                tempVacatureDTO.setUrl(vacature.getUrl());
+                tempVacatureDTO.setTitel(vacature.getTitel());
+                tempVacatureDTO.setId(vacature.getId());
 
-        for (Vacature element:vacatures) {
-            VacatureDTO tempVacatureDTO = new VacatureDTO();
-            tempVacatureDTO.setUrl(element.getUrl());
-            tempVacatureDTO.setTitel(element.getTitel());
-            tempVacatureDTO.setId(element.getId());
-
-            vacatureLijst.add(tempVacatureDTO);
+                vacatureLijst.add(tempVacatureDTO);
         }
         return vacatureLijst;
+    }
+
+    public int aantalVacaturesOphalen (String zoekopdracht){
+        String filteropdracht = "%"+zoekopdracht+"%";
+        int aantalVacatures = (vacatureRepository.findAllByTekst(zoekopdracht)).size();
+        return aantalVacatures;
     }
 }
