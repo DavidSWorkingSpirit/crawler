@@ -26,9 +26,9 @@ public class VacatureController {
         return ResponseEntity.ok(vacatureLijst);
     }
 
-    @GetMapping("/{zoekopdracht}")
-    public ResponseEntity krijgAantalVacatures(@PathVariable String zoekopdracht){
-        int aantal = vacatureService.aantalVacaturesOphalen(zoekopdracht);
+    @PostMapping("/zoekopdracht")
+    public ResponseEntity krijgAantalVacatures(@RequestBody SorteerDTO sorteerDTO){
+        int aantal = vacatureService.aantalVacaturesOphalen(sorteerDTO.getZoekopdracht());
         int aantalVacatures = aantal;
         return ResponseEntity.ok(aantalVacatures);
     }
