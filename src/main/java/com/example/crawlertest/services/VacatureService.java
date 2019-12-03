@@ -6,6 +6,7 @@ import com.example.crawlertest.repositories.VacatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +39,18 @@ public class VacatureService {
 
     public List<VacatureDTO> alleVacatures(int page, int size, String sortDir, String sort, String zoekopdracht){
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(sortDir), sort);
         String filterOpdracht = "%"+zoekopdracht+"%";
         List<Vacature> vacatures = (vacatureRepository.findAllByTekst(filterOpdracht, pageable)).getContent();
-
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
+        System.out.println(vacatures.get(0).getDatum());
+
         for (Vacature vacature:vacatures) {
                 VacatureDTO tempVacatureDTO = new VacatureDTO();
                 tempVacatureDTO.setUrl(vacature.getUrl());
                 tempVacatureDTO.setTitel(vacature.getTitel());
                 tempVacatureDTO.setId(vacature.getId());
+                tempVacatureDTO.setDatum(vacature.getDatum());
 
                 vacatureLijst.add(tempVacatureDTO);
         }
