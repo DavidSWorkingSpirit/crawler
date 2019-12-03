@@ -6,6 +6,7 @@ public class SorteerDTO {
     private int size;
     private String sortDir;
     private String sort;
+    private String zoekopdracht;
 
     public int getPage() {
         return page;
@@ -38,4 +39,8 @@ public class SorteerDTO {
     public void setSort(String sort) {
         this.sort = sort;
     }
+
+    public String getZoekopdracht() { return zoekopdracht; }
+
+    public void setZoekopdracht(String zoekopdracht) { this.zoekopdracht = zoekopdracht; }
 }

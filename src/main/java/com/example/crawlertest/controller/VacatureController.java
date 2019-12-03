@@ -21,15 +21,15 @@ public class VacatureController {
     @PostMapping("/")
     public ResponseEntity haalAlleVacaturesOp(@RequestBody SorteerDTO sorteerDTO) {
         List<VacatureDTO> vacatureLijst = vacatureService.alleVacatures(sorteerDTO.getPage(),
-                sorteerDTO.getSize(), sorteerDTO.getSortDir(), sorteerDTO.getSort());
+                sorteerDTO.getSize(), sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdracht());
 
         return ResponseEntity.ok(vacatureLijst);
     }
 
-    @GetMapping("/")
-    public ResponseEntity krijgAantalVacatures(){
-        long aantal = vacatureService.aantalVacaturesOphalen();
-        Long aantalVacatures = aantal;
+    @GetMapping("/{zoekopdracht}")
+    public ResponseEntity krijgAantalVacatures(@PathVariable String zoekopdracht){
+        int aantal = vacatureService.aantalVacaturesOphalen(zoekopdracht);
+        int aantalVacatures = aantal;
         return ResponseEntity.ok(aantalVacatures);
     }
 }
