@@ -9,11 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -45,7 +42,6 @@ public class VacatureService {
         String filterOpdracht = "%"+zoekopdracht+"%";
         List<Vacature> vacatures = (vacatureRepository.findAllByTekst(filterOpdracht, pageable)).getContent();
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
-        System.out.println(vacatures.get(1).getDatum());
 
         for (Vacature vacature:vacatures) {
                 VacatureDTO tempVacatureDTO = new VacatureDTO();
@@ -70,8 +66,6 @@ public class VacatureService {
         LocalDate datum = LocalDate.now();
         List<Vacature> vacatures = (vacatureRepository.findAllByDatum(datum, pageable)).getContent();
         List<VacatureDTO> lijstNieuweVacatures = new ArrayList<>();
-        System.out.println(vacatures.size());
-        System.out.println("het is nu" + datum);
 
         for (Vacature vacature:vacatures) {
             VacatureDTO tempVacatureDTO = new VacatureDTO();
