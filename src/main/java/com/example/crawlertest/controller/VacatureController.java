@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -28,8 +30,17 @@ public class VacatureController {
 
     @PostMapping("/zoekopdracht")
     public ResponseEntity krijgAantalVacatures(@RequestBody SorteerDTO sorteerDTO){
-        int aantal = vacatureService.aantalVacaturesOphalen(sorteerDTO.getZoekopdracht());
-        int aantalVacatures = aantal;
-        return ResponseEntity.ok(aantalVacatures);
+        return ResponseEntity.ok(vacatureService.aantalVacaturesOphalen(sorteerDTO.getZoekopdracht()));
+    }
+
+    @PostMapping("/nieuweVacatures")
+    public ResponseEntity haalAlleNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
+        return ResponseEntity.ok(vacatureService.alleNieuweVacatures(sorteerDTO.getPage(), sorteerDTO.getSize(),
+                sorteerDTO.getSortDir(), sorteerDTO.getSort()));
+    }
+
+    @PostMapping("/datum")
+    public ResponseEntity aantalNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
+        return ResponseEntity.ok(vacatureService.aantalNieuweVacatures());
     }
 }

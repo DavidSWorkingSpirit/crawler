@@ -8,7 +8,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,13 +32,10 @@ public class VacatureService {
             LOGGER.info("Nieuwe vacature gevonden: " + vacature.getTitel());
         }
 
-        if (vacatureRepository.findByUrl(vacature.getUrl()).isPresent()) {
-            return true;
-        }
-        return false;
+        return vacatureRepository.findByUrl(vacature.getUrl()).isPresent();
     }
 
-    public boolean vacatureBestaatAl(String url) {
+    private boolean vacatureBestaatAl(String url) {
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
@@ -43,7 +45,7 @@ public class VacatureService {
         String filterOpdracht = "%"+zoekopdracht+"%";
         List<Vacature> vacatures = (vacatureRepository.findAllByTekst(filterOpdracht, pageable)).getContent();
         List<VacatureDTO> vacatureLijst = new ArrayList<>();
-        System.out.println(vacatures.get(0).getDatum());
+        System.out.println(vacatures.get(1).getDatum());
 
         for (Vacature vacature:vacatures) {
                 VacatureDTO tempVacatureDTO = new VacatureDTO();
@@ -59,7 +61,32 @@ public class VacatureService {
 
     public int aantalVacaturesOphalen (String zoekopdracht){
         String filteropdracht = "%"+zoekopdracht+"%";
-        int aantalVacatures = (vacatureRepository.findAllByTekst(zoekopdracht)).size();
-        return aantalVacatures;
+        return (vacatureRepository.findAllByTekst(zoekopdracht)).size();
+    }
+
+    public List<VacatureDTO> alleNieuweVacatures(int page, int size, String sortDir, String sort){
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(sortDir), sort);
+        LocalDate datum = LocalDate.now();
+        List<Vacature> vacatures = (vacatureRepository.findAllByDatum(datum, pageable)).getContent();
+        List<VacatureDTO> lijstNieuweVacatures = new ArrayList<>();
+        System.out.println(vacatures.size());
+        System.out.println("het is nu" + datum);
+
+        for (Vacature vacature:vacatures) {
+            VacatureDTO tempVacatureDTO = new VacatureDTO();
+            tempVacatureDTO.setUrl(vacature.getUrl());
+            tempVacatureDTO.setTitel(vacature.getTitel());
+            tempVacatureDTO.setId(vacature.getId());
+            tempVacatureDTO.setDatum(vacature.getDatum());
+
+            lijstNieuweVacatures.add(tempVacatureDTO);
+        }
+        return lijstNieuweVacatures;
+    }
+
+    public int aantalNieuweVacatures (){
+        LocalDate datum = LocalDate.now();
+        return (vacatureRepository.findAllByDatum(datum)).size();
     }
 }
