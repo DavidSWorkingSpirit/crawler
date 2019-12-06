@@ -47,6 +47,7 @@ public class HtmlCrawler extends WebCrawler {
         if (webpagina.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) webpagina.getParseData();
             String html = htmlParseData.getHtml();
+
             Document document = Jsoup.parse(html);
 
         try {
