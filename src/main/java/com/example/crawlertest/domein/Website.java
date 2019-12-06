@@ -23,6 +23,9 @@ public class Website {
     @Column(name = "FILTER", nullable = false)
     private String filter;
 
+    @Column(name="VACATURETEKSTTAG", nullable = false)
+    private String vacatureTekstTag;
+
     public Long getId() {
         return id;
     }
@@ -54,4 +57,8 @@ public class Website {
     public void setFilter(String filter) {
         this.filter = filter;
     }
+
+    public String getVacatureTekstTag() { return vacatureTekstTag; }
+
+    public void setVacatureTekstTag(String vacatureTekstTag) { this.vacatureTekstTag = vacatureTekstTag; }
 }

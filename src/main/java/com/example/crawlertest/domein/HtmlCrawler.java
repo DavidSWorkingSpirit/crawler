@@ -49,7 +49,8 @@ public class HtmlCrawler extends WebCrawler {
             String html = htmlParseData.getHtml();
             Document document = Jsoup.parse(html);
 
-            String content = document.body().text();
+        try {
+            String content = document.getElementsByAttributeValueStarting("ID",website.getVacatureTekstTag()).text();
             String titel = htmlParseData.getTitle();
 
             if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
@@ -61,6 +62,9 @@ public class HtmlCrawler extends WebCrawler {
 
                 callBack.verwerkVacature(vacature);
             }
+        } catch (Exception e){
+            LOGGER.info("Er is geen vacaturetekst gevonden.");
+        }
         }
     }
 }
