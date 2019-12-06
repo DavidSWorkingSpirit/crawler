@@ -54,18 +54,18 @@ public class HtmlCrawler extends WebCrawler {
             String content = document.getElementsByAttributeValueStarting("ID",website.getVacatureTekstTag()).text();
             String titel = htmlParseData.getTitle();
 
-            if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
-            Pattern.compile(website.getFilter()).matcher(url).find()) {
+                if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
+                Pattern.compile(website.getFilter()).matcher(url).find()) {
 
-                vacature.setTitel(titel);
-                vacature.setTekst(content);
-                vacature.setUrl(url);
+                    vacature.setTitel(titel);
+                    vacature.setTekst(content);
+                    vacature.setUrl(url);
 
-                callBack.verwerkVacature(vacature);
+                    callBack.verwerkVacature(vacature);
+                }
+            } catch (Exception e){
+                LOGGER.info("Er is geen vacaturetekst gevonden.");
             }
-        } catch (Exception e){
-            LOGGER.info("Er is geen vacaturetekst gevonden.");
-        }
         }
     }
 }
