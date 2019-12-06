@@ -35,11 +35,11 @@ public class VacatureController {
     @PostMapping("/nieuweVacatures")
     public ResponseEntity haalAlleNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
         return ResponseEntity.ok(vacatureService.alleNieuweVacatures(sorteerDTO.getPage(), sorteerDTO.getSize(),
-                sorteerDTO.getSortDir(), sorteerDTO.getSort()));
+                sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdracht()));
     }
 
     @PostMapping("/datum")
     public ResponseEntity aantalNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
-        return ResponseEntity.ok(vacatureService.aantalNieuweVacatures());
+        return ResponseEntity.ok(vacatureService.aantalNieuweVacatures(sorteerDTO.getZoekopdracht()));
     }
 }

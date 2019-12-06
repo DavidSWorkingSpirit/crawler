@@ -6,7 +6,6 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -47,19 +46,24 @@ public class HtmlCrawler extends WebCrawler {
         if (webpagina.getParseData() instanceof HtmlParseData) {
             HtmlParseData htmlParseData = (HtmlParseData) webpagina.getParseData();
             String html = htmlParseData.getHtml();
+
             Document document = Jsoup.parse(html);
 
-            String content = document.body().text();
+        try {
+            String content = document.getElementsByAttributeValueStarting("ID",website.getVacatureTekstTag()).text();
             String titel = htmlParseData.getTitle();
 
-            if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
-            Pattern.compile(website.getFilter()).matcher(url).find()) {
+                if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&
+                Pattern.compile(website.getFilter()).matcher(url).find()) {
 
-                vacature.setTitel(titel);
-                vacature.setTekst(content);
-                vacature.setUrl(url);
+                    vacature.setTitel(titel);
+                    vacature.setTekst(content);
+                    vacature.setUrl(url);
 
-                callBack.verwerkVacature(vacature);
+                    callBack.verwerkVacature(vacature);
+                }
+            } catch (Exception e){
+                LOGGER.info("Er is geen vacaturetekst gevonden.");
             }
         }
     }

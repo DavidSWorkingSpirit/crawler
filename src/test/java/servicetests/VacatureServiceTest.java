@@ -67,6 +67,7 @@ public class VacatureServiceTest {
         String mockSort = "vacature";
         String mockSortDir = "DESC";
         LocalDate mockDatum= LocalDate.now();
+        String mockZoekOpdracht = "";
         Pageable mockPageable = PageRequest.of(mockPage, mockSize, Sort.Direction.valueOf(mockSortDir), mockSort);
 
         Vacature mockNieuweVacature = new Vacature();
@@ -80,9 +81,9 @@ public class VacatureServiceTest {
         mockVacatureLijst.add(mockNieuweVacature);
         PageImpl<Vacature> mockPageImpl = new PageImpl(mockVacatureLijst);
 
-        when(vacatureRepository.findAllByDatum(mockDatum, mockPageable)).thenReturn(mockPageImpl);
+        when(vacatureRepository.findAllByDatum(mockDatum, mockZoekOpdracht, mockPageable)).thenReturn(mockPageImpl);
 
-        vacatureDTOList = vacatureService.alleNieuweVacatures(mockPage, mockSize, mockSortDir, mockSort);
+        vacatureDTOList = vacatureService.alleNieuweVacatures(mockPage, mockSize, mockSortDir, mockSort, mockZoekOpdracht);
 
         Assert.assertEquals(vacatureDTOList.size(), mockVacatureLijst.size());
         Assert.assertTrue(vacatureDTOList.get(0).getDatum().equals(mockVacatureLijst.get(0).getDatum()));

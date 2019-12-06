@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class VacatureService {
         return vacatureRepository.findByUrl(vacature.getUrl()).isPresent();
     }
 
-    private boolean vacatureBestaatAl(String url) {
+      private boolean vacatureBestaatAl(String url) {
         return vacatureRepository.findByUrl(url).isPresent();
     }
 
@@ -60,11 +59,12 @@ public class VacatureService {
         return (vacatureRepository.findAllByTekst(zoekopdracht)).size();
     }
 
-    public List<VacatureDTO> alleNieuweVacatures(int page, int size, String sortDir, String sort){
+    public List<VacatureDTO> alleNieuweVacatures(int page, int size, String sortDir, String sort, String zoekOpdracht){
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(sortDir), sort);
+        String filterOpdracht = "%"+zoekOpdracht+"%";
         LocalDate datum = LocalDate.now();
-        List<Vacature> vacatures = (vacatureRepository.findAllByDatum(datum, pageable)).getContent();
+        List<Vacature> vacatures = (vacatureRepository.findAllByDatum(datum, filterOpdracht, pageable)).getContent();
         List<VacatureDTO> lijstNieuweVacatures = new ArrayList<>();
 
         for (Vacature vacature:vacatures) {
@@ -79,8 +79,9 @@ public class VacatureService {
         return lijstNieuweVacatures;
     }
 
-    public int aantalNieuweVacatures (){
+    public int aantalNieuweVacatures (String zoekOpdracht){
         LocalDate datum = LocalDate.now();
-        return (vacatureRepository.findAllByDatum(datum)).size();
+        String filterOpdracht = "%"+zoekOpdracht+"%";
+        return (vacatureRepository.findAllByDatum(datum, filterOpdracht)).size();
     }
 }
