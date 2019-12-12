@@ -22,24 +22,24 @@ public class VacatureController {
     @PostMapping("/")
     public ResponseEntity haalAlleVacaturesOp(@RequestBody SorteerDTO sorteerDTO) {
         List<VacatureDTO> vacatureLijst = vacatureService.alleVacatures(sorteerDTO.getPage(),
-                sorteerDTO.getSize(), sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdracht());
+                sorteerDTO.getSize(), sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdrachten());
 
         return ResponseEntity.ok(vacatureLijst);
     }
 
     @PostMapping("/zoekopdracht")
     public ResponseEntity krijgAantalVacatures(@RequestBody SorteerDTO sorteerDTO){
-        return ResponseEntity.ok(vacatureService.aantalVacaturesOphalen(sorteerDTO.getZoekopdracht()));
+        return ResponseEntity.ok(vacatureService.aantalVacaturesOphalen(sorteerDTO.getZoekopdrachten()));
     }
 
     @PostMapping("/nieuweVacatures")
     public ResponseEntity haalAlleNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
         return ResponseEntity.ok(vacatureService.alleNieuweVacatures(sorteerDTO.getPage(), sorteerDTO.getSize(),
-                sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdracht()));
+                sorteerDTO.getSortDir(), sorteerDTO.getSort(), sorteerDTO.getZoekopdrachten()));
     }
 
     @PostMapping("/datum")
     public ResponseEntity aantalNieuweVacatures(@RequestBody SorteerDTO sorteerDTO){
-        return ResponseEntity.ok(vacatureService.aantalNieuweVacatures(sorteerDTO.getZoekopdracht()));
+        return ResponseEntity.ok(vacatureService.aantalNieuweVacatures(sorteerDTO.getZoekopdrachten()));
     }
 }
