@@ -72,7 +72,6 @@ public class VacatureService {
                 vacatures.addAll(vacatureRepository.findAllByTekst(filteropdracht));
             }
         }
-
         return vacatures.size();
     }
 
