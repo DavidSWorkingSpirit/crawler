@@ -113,7 +113,6 @@ public class VacatureService {
                 vacatures.addAll(vacatureRepository.findAllByDatum(datum, filteropdracht));
             }
         }
-
         return vacatures.size();
     }
 
@@ -142,7 +141,6 @@ public class VacatureService {
                         filters.get(3), filters.get(4), filters.get(5), pageable);
             }
         }
-
         return null;
     }
 
@@ -173,7 +171,6 @@ public class VacatureService {
                         filters.get(2), filters.get(3), filters.get(4), filters.get(5), pageable);
             }
         }
-
         return null;
     }
 
