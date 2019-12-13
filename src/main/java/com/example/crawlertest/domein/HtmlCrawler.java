@@ -50,7 +50,9 @@ public class HtmlCrawler extends WebCrawler {
             Document document = Jsoup.parse(html);
 
         try {
-            String content = document.getElementsByAttributeValueStarting("ID",website.getVacatureTekstTag()).text();
+            String content = !document.getElementsByAttributeValueStarting("ID", website.getVacatureTekstTag()).text().isEmpty() ?
+                             document.getElementsByAttributeValueStarting("ID", website.getVacatureTekstTag()).text() :
+                             document.getElementsByAttributeValueStarting("CLASS", website.getVacatureTekstTag()).text();
             String titel = htmlParseData.getTitle();
 
                 if (zoektermen.stream().anyMatch(zoekterm -> content.toLowerCase().contains(zoekterm.getNaam().toLowerCase())) &&

@@ -1,6 +1,7 @@
 package com.example.crawlertest.domein;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class SorteerDTO {
 
@@ -8,7 +9,7 @@ public class SorteerDTO {
     private int size;
     private String sortDir;
     private String sort;
-    private String zoekopdracht;
+    private List<String> zoekopdrachten;
     private Timestamp datum;
 
     public int getPage() {
@@ -43,9 +44,13 @@ public class SorteerDTO {
         this.sort = sort;
     }
 
-    public String getZoekopdracht() { return zoekopdracht; }
+    public List<String> getZoekopdrachten() {
+        return zoekopdrachten;
+    }
 
-    public void setZoekopdracht(String zoekopdracht) { this.zoekopdracht = zoekopdracht; }
+    public void setZoekopdrachten(List<String> zoekopdrachten) {
+        this.zoekopdrachten = zoekopdrachten;
+    }
 
     public Timestamp getDatum() { return datum;  }
 

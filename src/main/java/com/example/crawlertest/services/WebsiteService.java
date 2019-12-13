@@ -65,8 +65,9 @@ public class WebsiteService {
         boolean gelijkeNaam = bestaand.getNaam().equals(gewijzigd.getNaam());
         boolean gelijkeUrl = bestaand.getUrl().equals(gewijzigd.getUrl());
         boolean gelijkFilter = bestaand.getFilter().equals(gewijzigd.getFilter());
+        boolean gelijkVacatureTag = bestaand.getVacatureTekstTag().equals(gewijzigd.getVacatureTekstTag());
 
-        if (gelijkeNaam && gelijkeUrl && gelijkFilter) {
+        if (gelijkeNaam && gelijkeUrl && gelijkFilter && gelijkVacatureTag) {
             return true;
         }
 

@@ -1,6 +1,7 @@
 package com.example.crawlertest.util;
 
 import com.example.crawlertest.services.CrawlService;
+import com.example.crawlertest.services.VacatureService;
 import com.example.crawlertest.services.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +17,9 @@ public class ScheduleUtil {
     @Autowired
     private WebsiteService websiteService;
 
+    @Autowired
+    private VacatureService vacatureService;
+
     private final Logger LOGGER = Logger.getLogger("ScheduleUtilLog");
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -25,5 +29,10 @@ public class ScheduleUtil {
         } else {
             LOGGER.info("Geen websites gevonden om te crawlen");
         }
+    }
+
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void compare() {
+        vacatureService.vergelijkVacatures();
     }
 }
