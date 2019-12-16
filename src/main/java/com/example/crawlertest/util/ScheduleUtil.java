@@ -20,7 +20,7 @@ public class ScheduleUtil {
     @Autowired
     private VacatureService vacatureService;
 
-    private final Logger LOGGER = Logger.getLogger("ScheduleUtilLog");
+    private final Logger LOGGER = Logger.getLogger(ScheduleUtil.class.getName());
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void crawl() {
@@ -33,6 +33,6 @@ public class ScheduleUtil {
 
     @Scheduled(cron = "0 0 1 * * ?")
     public void compare() {
-        vacatureService.vergelijkVacatures();
+        vacatureService.verwijderDuplicaten();
     }
 }

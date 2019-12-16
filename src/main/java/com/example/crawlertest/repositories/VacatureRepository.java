@@ -59,32 +59,32 @@ public interface VacatureRepository extends PagingAndSortingRepository<Vacature,
                                       @Param("filter3") String filter3, @Param("filter4") String filter4,
                                       @Param("filter5") String filter5, @Param("filter6") String filter6, Pageable pageable);
 
-    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND e.tekst LIKE %:filter1% " +
-            "OR e.tekst LIKE %:filter2%", nativeQuery = true)
+    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND (e.tekst LIKE %:filter1% " +
+            "OR e.tekst LIKE %:filter2%)", nativeQuery = true)
     PageImpl<Vacature> findAllByDatum(@Param("datum") LocalDate datum, @Param("filter1") String filter1,
                                       @Param("filter2") String filter2, Pageable pageable);
 
-    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND e.tekst LIKE %:filter1% " +
-            "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3%", nativeQuery = true)
+    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND (e.tekst LIKE %:filter1% " +
+            "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3%)", nativeQuery = true)
     PageImpl<Vacature> findAllByDatum(@Param("datum") LocalDate datum, @Param("filter1") String filter1,
                                       @Param("filter2") String filter2, @Param("filter3") String filter3, Pageable pageable);
 
-    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND e.tekst LIKE %:filter1% " +
-            "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3% OR e.tekst LIKE %:filter4%", nativeQuery = true)
+    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND (e.tekst LIKE %:filter1% " +
+            "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3% OR e.tekst LIKE %:filter4%)", nativeQuery = true)
     PageImpl<Vacature> findAllByDatum(@Param("datum") LocalDate datum, @Param("filter1") String filter1,
                                       @Param("filter2") String filter2, @Param("filter3") String filter3,
                                       @Param("filter4") String filter4, Pageable pageable);
 
-    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND e.tekst LIKE %:filter1% " +
+    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND (e.tekst LIKE %:filter1% " +
             "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3% OR e.tekst LIKE %:filter4% " +
-            "OR e.tekst LIKE %:filter5%", nativeQuery = true)
+            "OR e.tekst LIKE %:filter5%)", nativeQuery = true)
     PageImpl<Vacature> findAllByDatum(@Param("datum") LocalDate datum, @Param("filter1") String filter1,
                                       @Param("filter2") String filter2, @Param("filter3") String filter3,
                                       @Param("filter4") String filter4, @Param("filter5") String filter5, Pageable pageable);
 
-    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND e.tekst LIKE %:filter1% " +
+    @Query(value = "SELECT * FROM vacature e WHERE e.datum LIKE %:datum% AND (e.tekst LIKE %:filter1% " +
             "OR e.tekst LIKE %:filter2% OR e.tekst LIKE %:filter3% OR e.tekst LIKE %:filter4% " +
-            "OR e.tekst LIKE %:filter5% OR e.tekst LIKE %:filter6%", nativeQuery = true)
+            "OR e.tekst LIKE %:filter5% OR e.tekst LIKE %:filter6%)", nativeQuery = true)
     PageImpl<Vacature> findAllByDatum(@Param("datum") LocalDate datum, @Param("filter1") String filter1,
                                       @Param("filter2") String filter2, @Param("filter3") String filter3,
                                       @Param("filter4") String filter4, @Param("filter5") String filter5,
