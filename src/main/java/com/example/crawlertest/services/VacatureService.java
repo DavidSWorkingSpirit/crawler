@@ -207,7 +207,7 @@ public class VacatureService {
         return duplicaten;
     }
 
-    public boolean compareText(String string1, String string2) {
+    private boolean compareText(String string1, String string2) {
         JaroWinklerDistance jwd = new JaroWinklerDistance();
 
         String shortest;
