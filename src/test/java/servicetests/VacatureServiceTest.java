@@ -163,7 +163,7 @@ public class VacatureServiceTest {
 
         when(vacatureRepository.findAll()).thenReturn(vacatureLijst);
 
-        Set<Vacature> dubbeleVacatures = vacatureService.vergelijkVacatures();
+        Set<Vacature> dubbeleVacatures = vacatureService.verwijderDuplicaten();
 
         Assert.assertTrue(dubbeleVacatures.size() == 1);
     }

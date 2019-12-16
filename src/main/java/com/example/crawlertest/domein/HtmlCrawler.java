@@ -7,7 +7,6 @@ import edu.uci.ics.crawler4j.url.WebURL;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -17,7 +16,7 @@ public class HtmlCrawler extends WebCrawler {
                     ".*(\\.(css|js|ts|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf" +
                     "|rm|smil|wmv|swf|wma|zip|rar|gz|txt|svg|woff2|ttf|php|ni|design))$");
 
-    private final Logger LOGGER = Logger.getLogger("HtmlCrawlerLog");
+    private final Logger LOGGER = Logger.getLogger(HtmlCrawler.class.getName());
 
     private Website website;
     private CallBack callBack;

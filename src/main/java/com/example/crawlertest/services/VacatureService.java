@@ -179,10 +179,9 @@ public class VacatureService {
         return null;
     }
 
-    public Set<Vacature> vergelijkVacatures() {
+    public Set<Vacature> verwijderDuplicaten() {
         LOGGER.info("Vergelijken van vacatures is gestart.");
 
-        JaroWinklerDistance jaroWinklerDistance = new JaroWinklerDistance();
         List<Vacature> vacatures = vacatureRepository.findAll();
         List<Vacature> checks = new ArrayList<>(vacatures);
         List<Vacature> trash = new ArrayList<>();
@@ -194,8 +193,7 @@ public class VacatureService {
             gecheckteVacatures.add(vacature1);
             checks.forEach(vacature2 -> {
                 if (!gecheckteVacatures.contains(vacature2)) {
-                    Double apply = jaroWinklerDistance.apply(vacature1.getTekst(), vacature2.getTekst());
-                    if (apply >= 0.9D && apply < 1.0D) {
+                    if (compareText(vacature1.getTekst(), vacature2.getTekst())) {
                         duplicaten.add(vacature2);
                         trash.add(vacature2);
                         LOGGER.info("Duplicaat gevonden: ID1 - " + vacature1.getId() + ", ID2 - " + vacature2.getId());
@@ -210,6 +208,31 @@ public class VacatureService {
         vacatureRepository.deleteAll(duplicaten);
 
         LOGGER.info("Vergelijken van vacatures is beeïndigd.");
+        LOGGER.info(duplicaten.size() + " duplicaten gevonden");
         return duplicaten;
+    }
+
+    public boolean compareText(String string1, String string2) {
+        JaroWinklerDistance jwd = new JaroWinklerDistance();
+
+        String shortest;
+        String longest;
+
+        if (string1.length() >= string2.length()) {
+            longest = string1;
+            shortest = string2;
+        } else {
+            shortest = string1;
+            longest = string2;
+        }
+
+        double percentage = (double) shortest.length() / (double) longest.length() * 100.0;
+
+        if (percentage > 80.0) {
+            Double compare = jwd.apply(shortest, longest);
+            return compare >= 0.9D && compare < 1.0D;
+        }
+
+        return false;
     }
 }
