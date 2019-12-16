@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
@@ -73,7 +72,6 @@ public class VacatureService {
                 vacatures.addAll(vacatureRepository.findAllByTekst(filteropdracht));
             }
         }
-
         return vacatures.size();
     }
 
@@ -115,7 +113,6 @@ public class VacatureService {
                 vacatures.addAll(vacatureRepository.findAllByDatum(datum, filteropdracht));
             }
         }
-
         return vacatures.size();
     }
 
@@ -144,7 +141,6 @@ public class VacatureService {
                         filters.get(3), filters.get(4), filters.get(5), pageable);
             }
         }
-
         return null;
     }
 
@@ -175,7 +171,6 @@ public class VacatureService {
                         filters.get(2), filters.get(3), filters.get(4), filters.get(5), pageable);
             }
         }
-
         return null;
     }
 
