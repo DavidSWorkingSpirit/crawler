@@ -12,10 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.Optional;
+<<<<<<< HEAD
 
 import static org.mockito.Mockito.mock;
+=======
+>>>>>>> 3a6d61742ac63d13210a441f35c04194b8fb2b91
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -22,6 +22,7 @@ public class ScheduleUtil {
 
     private final Logger LOGGER = Logger.getLogger(ScheduleUtil.class.getName());
 
+
     @Scheduled(cron = "0 15 0 * * ?")
     public void crawl() {
         if (websiteService.geefAlleWebsites().size() > 0) {
