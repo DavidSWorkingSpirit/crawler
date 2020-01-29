@@ -22,7 +22,7 @@ public class ScheduleUtil {
 
     private final Logger LOGGER = Logger.getLogger(ScheduleUtil.class.getName());
 
-    @Scheduled(cron = "0 54 8 * * ?")
+    @Scheduled(cron = "0 15 0 * * ?")
     public void crawl() {
         if (websiteService.geefAlleWebsites().size() > 0) {
             crawlService.crawlWebsites();
@@ -34,5 +34,10 @@ public class ScheduleUtil {
     @Scheduled(cron = "0 0 1 * * ?")
     public void compare() {
         vacatureService.verwijderDuplicaten();
+    }
+
+    @Scheduled(cron = "0 1 0 * * ?")
+    public void removeOld() {
+        vacatureService.verwijderOudeVacatures();
     }
 }
